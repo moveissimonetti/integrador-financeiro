@@ -1,13 +1,13 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Tests;
+namespace SonnyBlaine\Integrator\Tests;
 
 use Doctrine\DBAL\Connection AS DBALConnection;
-use Simonetti\IntegradorFinanceiro\Connection;
-use Simonetti\IntegradorFinanceiro\ConnectionManager;
+use SonnyBlaine\Integrator\Connection;
+use SonnyBlaine\Integrator\ConnectionManager;
 
 /**
  * Class ConnectionManagerTest
- * @package Simonetti\IntegradorFinanceiro\Tests
+ * @package SonnyBlaine\Integrator\Tests
  */
 class ConnectionManagerTest extends \PHPUnit_Framework_TestCase
 {

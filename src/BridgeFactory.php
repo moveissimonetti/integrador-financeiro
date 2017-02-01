@@ -1,5 +1,5 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro;
+namespace SonnyBlaine\Integrator;
 
 use Pimple\Container;
 

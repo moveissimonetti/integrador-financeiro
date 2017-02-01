@@ -1,12 +1,12 @@
 <?php
 
-namespace Simonetti\IntegradorFinanceiro;
+namespace SonnyBlaine\Integrator;
 
-use Simonetti\IntegradorFinanceiro\Destination\Request;
+use SonnyBlaine\Integrator\Destination\Request;
 
 /**
  * Interface IntegratorInterface
- * @package Simonetti\IntegradorFinanceiro
+ * @package SonnyBlaine\Integrator
  */
 interface BridgeInterface
 {

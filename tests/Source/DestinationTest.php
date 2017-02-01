@@ -1,13 +1,13 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Tests\Source;
+namespace SonnyBlaine\Integrator\Tests\Source;
 
-use Simonetti\IntegradorFinanceiro\Destination\Destination as FinalDestination;
-use Simonetti\IntegradorFinanceiro\Destination\Method;
-use Simonetti\IntegradorFinanceiro\Source\Destination as SourceDestination;
+use SonnyBlaine\Integrator\Destination\Destination as FinalDestination;
+use SonnyBlaine\Integrator\Destination\Method;
+use SonnyBlaine\Integrator\Source\Destination as SourceDestination;
 
 /**
  * Class DestinationTest
- * @package Simonetti\IntegradorFinanceiro\Tests\Source
+ * @package SonnyBlaine\Integrator\Tests\Source
  */
 class DestinationTest extends \PHPUnit_Framework_TestCase
 {

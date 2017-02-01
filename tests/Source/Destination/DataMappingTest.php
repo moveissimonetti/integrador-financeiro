@@ -1,10 +1,12 @@
 <?php
+namespace SonnyBlaine\Integrator\Tests;
 
-namespace Simonetti\IntegradorFinanceiro\Tests;
+use SonnyBlaine\Integrator\Source\Destination\DataMapping;
 
-
-use Simonetti\IntegradorFinanceiro\Source\Destination\DataMapping;
-
+/**
+ * Class DataMappingTest
+ * @package SonnyBlaine\Integrator\Tests
+ */
 class DataMappingTest extends \PHPUnit_Framework_TestCase
 {
 

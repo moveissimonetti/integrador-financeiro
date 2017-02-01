@@ -1,15 +1,15 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Controllers;
+namespace SonnyBlaine\Integrator\Controllers;
 
-use Simonetti\IntegradorFinanceiro\Services\RequestService;
-use Simonetti\IntegradorFinanceiro\Services\SourceService;
+use SonnyBlaine\Integrator\Services\RequestService;
+use SonnyBlaine\Integrator\Services\SourceService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use OldSound\RabbitMqBundle\RabbitMq\Producer as RabbitProducer;
 
 /**
  * Class IntegratorController
- * @package Simonetti\IntegradorFinanceiro\Controllers
+ * @package SonnyBlaine\Integrator\Controllers
  */
 class IntegratorController
 {

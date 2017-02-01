@@ -1,14 +1,14 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Destination;
+namespace SonnyBlaine\Integrator\Destination;
 
 use Doctrine\ORM\Mapping as ORM;
-use Simonetti\IntegradorFinanceiro\Source\Destination;
-use Simonetti\IntegradorFinanceiro\Source\Request as SourceRequest;
+use SonnyBlaine\Integrator\Source\Destination;
+use SonnyBlaine\Integrator\Source\Request as SourceRequest;
 
 /**
  * Class Request
- * @package Simonetti\IntegradorFinanceiro\Destination
- * @ORM\Entity(repositoryClass="Simonetti\IntegradorFinanceiro\Destination\RequestRepository")
+ * @package SonnyBlaine\Integrator\Destination
+ * @ORM\Entity(repositoryClass="SonnyBlaine\Integrator\Destination\RequestRepository")
  * @ORM\Table(name="destination_request")
  */
 class Request
@@ -24,7 +24,7 @@ class Request
 
     /**
      * Destination
-     * @ORM\ManyToOne(targetEntity="Simonetti\IntegradorFinanceiro\Destination\Destination")
+     * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Destination\Destination")
      * @ORM\JoinColumn(name="destination_id", referencedColumnName="id")
      * @var Destination
      */
@@ -32,7 +32,7 @@ class Request
 
     /**
      * Source Request
-     * @ORM\ManyToOne(targetEntity="Simonetti\IntegradorFinanceiro\Source\Request", inversedBy="destinationRequests")
+     * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Source\Request", inversedBy="destinationRequests")
      * @ORM\JoinColumn(name="source_request_id", referencedColumnName="id")
      * @var SourceRequest
      */

@@ -1,16 +1,16 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Source;
+namespace SonnyBlaine\Integrator\Source;
 
 use Doctrine\Common\Collections\ArrayCollection as DestinationsCollection;
 use Doctrine\Common\Collections\ArrayCollection as DestinationRequestsCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Simonetti\IntegradorFinanceiro\Connection;
-use Simonetti\IntegradorFinanceiro\Destination\Request as DestinationRequest;
+use SonnyBlaine\Integrator\Connection;
+use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
 
 /**
  * Class Request
- * @package Simonetti\IntegradorFinanceiro\Source
- * @ORM\Entity(repositoryClass="Simonetti\IntegradorFinanceiro\Source\RequestRepository")
+ * @package SonnyBlaine\Integrator\Source
+ * @ORM\Entity(repositoryClass="SonnyBlaine\Integrator\Source\RequestRepository")
  * @ORM\Table(name="source_request")
  */
 class Request
@@ -26,7 +26,7 @@ class Request
 
     /**
      * Source of Request
-     * @ORM\ManyToOne(targetEntity="Simonetti\IntegradorFinanceiro\Source\Source")
+     * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Source\Source")
      * @ORM\JoinColumn(name="source_id", referencedColumnName="id")
      * @var Source
      */
@@ -41,7 +41,7 @@ class Request
 
     /**
      * Collection of Destination Requests
-     * @ORM\OneToMany(targetEntity="Simonetti\IntegradorFinanceiro\Destination\Request", mappedBy="sourceRequest")
+     * @ORM\OneToMany(targetEntity="SonnyBlaine\Integrator\Destination\Request", mappedBy="sourceRequest")
      * @var DestinationRequestsCollection|DestinationRequest[]
      */
     protected $destinationRequests;

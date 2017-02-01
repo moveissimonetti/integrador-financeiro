@@ -1,12 +1,12 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Services;
+namespace SonnyBlaine\Integrator\Services;
 
-use Simonetti\IntegradorFinanceiro\Source\Source;
-use Simonetti\IntegradorFinanceiro\Source\SourceRepository;
+use SonnyBlaine\Integrator\Source\Source;
+use SonnyBlaine\Integrator\Source\SourceRepository;
 
 /**
  * Class SourceService
- * @package Simonetti\IntegradorFinanceiro\Services
+ * @package SonnyBlaine\Integrator\Services
  */
 class SourceService
 {

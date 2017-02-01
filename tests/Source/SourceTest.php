@@ -1,12 +1,15 @@
 <?php
-
-namespace Simonetti\IntegradorFinanceiro\Tests\Source;
+namespace SonnyBlaine\Integrator\Tests\Source;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Simonetti\IntegradorFinanceiro\Connection;
-use Simonetti\IntegradorFinanceiro\Destination\Destination;
-use Simonetti\IntegradorFinanceiro\Source\Source;
+use SonnyBlaine\Integrator\Connection;
+use SonnyBlaine\Integrator\Destination\Destination;
+use SonnyBlaine\Integrator\Source\Source;
 
+/**
+ * Class SourceTest
+ * @package SonnyBlaine\Integrator\Tests\Source
+ */
 class SourceTest extends \PHPUnit_Framework_TestCase
 {
 

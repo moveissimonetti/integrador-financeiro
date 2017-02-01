@@ -1,18 +1,18 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Fixtures;
+namespace SonnyBlaine\Integrator\Fixtures;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Simonetti\IntegradorFinanceiro\Connection;
-use Simonetti\IntegradorFinanceiro\Source\Destination;
-use Simonetti\IntegradorFinanceiro\Source\Source;
+use SonnyBlaine\Integrator\Connection;
+use SonnyBlaine\Integrator\Source\Destination;
+use SonnyBlaine\Integrator\Source\Source;
 
 /**
  * Class SourceFixture
- * @package Simonetti\IntegradorFinanceiro\Fixtures
+ * @package SonnyBlaine\Integrator\Fixtures
  */
 class SourceFixture extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {

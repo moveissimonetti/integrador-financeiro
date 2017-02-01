@@ -1,17 +1,17 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Tests\Services;
+namespace SonnyBlaine\Integrator\Tests\Services;
 
-use Simonetti\IntegradorFinanceiro\Services\RequestService;
-use Simonetti\IntegradorFinanceiro\Source\Request as SourceRequest;
-use Simonetti\IntegradorFinanceiro\Destination\Request as DestinationRequest;
-use Simonetti\IntegradorFinanceiro\Source\RequestRepository as SourceRequestRepository;
-use Simonetti\IntegradorFinanceiro\Destination\RequestRepository as DestinationRequestRepository;
-use Simonetti\IntegradorFinanceiro\Destination\RequestCreator as DestinationRequestCreator;
-use Simonetti\IntegradorFinanceiro\Source\Source;
+use SonnyBlaine\Integrator\Services\RequestService;
+use SonnyBlaine\Integrator\Source\Request as SourceRequest;
+use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
+use SonnyBlaine\Integrator\Source\RequestRepository as SourceRequestRepository;
+use SonnyBlaine\Integrator\Destination\RequestRepository as DestinationRequestRepository;
+use SonnyBlaine\Integrator\Destination\RequestCreator as DestinationRequestCreator;
+use SonnyBlaine\Integrator\Source\Source;
 
 /**
  * Class RequestServiceTest
- * @package Simonetti\IntegradorFinanceiro\Tests\Services
+ * @package SonnyBlaine\Integrator\Tests\Services
  */
 class RequestServiceTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,15 +1,15 @@
 <?php
 
-namespace Simonetti\IntegradorFinanceiro\Source;
+namespace SonnyBlaine\Integrator\Source;
 
 use Doctrine\Common\Collections\ArrayCollection as DestinationsCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Simonetti\IntegradorFinanceiro\Connection;
+use SonnyBlaine\Integrator\Connection;
 
 /**
  * Class Source
- * @package Simonetti\IntegradorFinanceiro\Source
- * @ORM\Entity(repositoryClass="Simonetti\IntegradorFinanceiro\Source\SourceRepository")
+ * @package SonnyBlaine\Integrator\Source
+ * @ORM\Entity(repositoryClass="SonnyBlaine\Integrator\Source\SourceRepository")
  * @ORM\Table(name="source")
  */
 class Source
@@ -33,7 +33,7 @@ class Source
 
     /**
      * Data connection to database
-     * @ORM\ManyToOne(targetEntity="Simonetti\IntegradorFinanceiro\Connection")
+     * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Connection")
      * @ORM\JoinColumn(name="connection_id", referencedColumnName="id")
      * @var Connection
      */
@@ -48,7 +48,7 @@ class Source
 
     /**
      * List of destinations
-     * @ORM\ManyToMany(targetEntity="Simonetti\IntegradorFinanceiro\Source\Destination")
+     * @ORM\ManyToMany(targetEntity="SonnyBlaine\Integrator\Source\Destination")
      * @ORM\JoinTable(name="source_destination",
      *     joinColumns={@ORM\JoinColumn(name="source_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="destination_id", referencedColumnName="id")}

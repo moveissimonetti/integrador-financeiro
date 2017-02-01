@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Simonetti\\IntegradorFinanceiro\\": "src/"
+            "SonnyBlaine\\Integrator\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Simonetti\\IntegradorFinanceiro\\Tests\\": "tests/"
+            "SonnyBlaine\\Integrator\\Tests\\": "tests/"
         }
     },
     "license": "MIT License",

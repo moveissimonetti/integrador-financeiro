@@ -1,16 +1,16 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Tests\Destination;
+namespace SonnyBlaine\Integrator\Tests\Destination;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Connection AS DBALConnection;
-use Simonetti\IntegradorFinanceiro\ConnectionManager;
-use Simonetti\IntegradorFinanceiro\Destination\RequestCreator;
-use Simonetti\IntegradorFinanceiro\Source;
-use Simonetti\IntegradorFinanceiro\Destination;
+use SonnyBlaine\Integrator\ConnectionManager;
+use SonnyBlaine\Integrator\Destination\RequestCreator;
+use SonnyBlaine\Integrator\Source;
+use SonnyBlaine\Integrator\Destination;
 
 /**
  * Class RequestCreatorTest
- * @package Simonetti\IntegradorFinanceiro\Tests\Destination
+ * @package SonnyBlaine\Integrator\Tests\Destination
  */
 class RequestCreatorTest extends \PHPUnit_Framework_TestCase
 {

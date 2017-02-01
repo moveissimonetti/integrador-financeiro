@@ -1,15 +1,15 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Rabbit;
+namespace SonnyBlaine\Integrator\Rabbit;
 
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use OldSound\RabbitMqBundle\RabbitMq\Producer as RabbitProducer;
-use Simonetti\IntegradorFinanceiro\BridgeFactory;
-use Simonetti\IntegradorFinanceiro\Services\RequestService;
+use SonnyBlaine\Integrator\BridgeFactory;
+use SonnyBlaine\Integrator\Services\RequestService;
 
 /**
  * Class IntegratorConsumer
- * @package Simonetti\IntegradorFinanceiro\Rabbit
+ * @package SonnyBlaine\Integrator\Rabbit
  */
 class IntegratorConsumer implements ConsumerInterface
 {

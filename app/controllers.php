@@ -1,5 +1,5 @@
 <?php
-use Simonetti\IntegradorFinanceiro\Controllers\IntegratorController;
+use SonnyBlaine\Integrator\Controllers\IntegratorController;
 
 $app['integrator.controller'] = function () use ($app) {
     return new IntegratorController(
