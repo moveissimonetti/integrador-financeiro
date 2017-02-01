@@ -1,7 +1,7 @@
 {
-    "name": "simonetti/integrador-financeiro",
-    "description": "API para integrar financeiro",
-    "type": "library",
+    "name": "sonny-blaine/integrator",
+    "description": "Integrator Tool",
+    "type": "project",
     "require": {
         "silex/silex": "^2.0",
         "monolog/monolog": "1.11.0",
