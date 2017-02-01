@@ -1,11 +1,11 @@
 <?php
-namespace Simonetti\Integrador\Tests;
+namespace SonnyBlaine\Integrator\Tests;
 
 use SonnyBlaine\Integrator\Destination\Method;
 
 /**
  * Class MethodTest
- * @package Simonetti\Integrador\Tests
+ * @package SonnyBlaine\Integrator\Tests
  */
 class MethodTest extends \PHPUnit_Framework_TestCase
 {
