@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/sonny-blaine/integrator.png?label=ready&title=Ready)](https://waffle.io/sonny-blaine/integrator)
 # Integrador
 
 ## Run Docker
