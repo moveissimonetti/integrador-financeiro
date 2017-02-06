@@ -1,12 +1,14 @@
 <?php
+namespace SonnyBlaine\Integrator\Tests;
 
-namespace Simonetti\IntegradorFinanceiro\Tests;
+use SonnyBlaine\Integrator\Destination\Destination;
 
-use Simonetti\IntegradorFinanceiro\Destination\Destination;
-
+/**
+ * Class DestinationTest
+ * @package SonnyBlaine\Integrator\Tests
+ */
 class DestinationTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testValidateProperties()
     {
         $identifier = '122345421';
@@ -20,5 +22,4 @@ class DestinationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($name, $destination->getName());
         $this->assertEquals($bridge, $destination->getBridge());
     }
-
 }

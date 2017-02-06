@@ -1,12 +1,12 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Tests\Source;
+namespace SonnyBlaine\Integrator\Tests\Source;
 
-use Simonetti\IntegradorFinanceiro\Source\Request;
-use Simonetti\IntegradorFinanceiro\Source\Source;
+use SonnyBlaine\Integrator\Source\Request;
+use SonnyBlaine\Integrator\Source\Source;
 
 /**
  * Class RequestTest
- * @package Simonetti\IntegradorFinanceiro\Tests\Source
+ * @package SonnyBlaine\Integrator\Tests\Source
  */
 class RequestTest extends \PHPUnit_Framework_TestCase
 {

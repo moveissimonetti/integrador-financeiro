@@ -1,16 +1,16 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Fixtures;
+namespace SonnyBlaine\Integrator\Fixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Simonetti\IntegradorFinanceiro\Destination\Destination;
-use Simonetti\IntegradorFinanceiro\Destination\Method;
+use SonnyBlaine\Integrator\Destination\Destination;
+use SonnyBlaine\Integrator\Destination\Method;
 
 /**
  * Class FinalDestinationMethodFixture
- * @package Simonetti\IntegradorFinanceiro\Fixtures
+ * @package SonnyBlaine\Integrator\Fixtures
  */
 class FinalDestinationMethodFixture extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {

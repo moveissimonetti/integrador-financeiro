@@ -1,14 +1,14 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Source;
+namespace SonnyBlaine\Integrator\Source;
 
 use Doctrine\ORM\Mapping as ORM;
-use Simonetti\IntegradorFinanceiro\Destination\Destination as FinalDestination;
-use Simonetti\IntegradorFinanceiro\Destination\Method;
-use Simonetti\IntegradorFinanceiro\Source\Destination\DataMapping;
+use SonnyBlaine\Integrator\Destination\Destination as FinalDestination;
+use SonnyBlaine\Integrator\Destination\Method;
+use SonnyBlaine\Integrator\Source\Destination\DataMapping;
 
 /**
  * Class Destination
- * @package Simonetti\IntegradorFinanceiro\Source
+ * @package SonnyBlaine\Integrator\Source
  * @ORM\Entity()
  * @ORM\Table(name="destination")
  */
@@ -25,7 +25,7 @@ class Destination
 
     /**
      * Final destination
-     * @ORM\OneToOne(targetEntity="Simonetti\IntegradorFinanceiro\Destination\Destination")
+     * @ORM\OneToOne(targetEntity="SonnyBlaine\Integrator\Destination\Destination")
      * @ORM\JoinColumn(name="final_destination_id", referencedColumnName="id")
      * @var FinalDestination
      */
@@ -33,7 +33,7 @@ class Destination
 
     /**
      * Destination method
-     * @ORM\OneToOne(targetEntity="Simonetti\IntegradorFinanceiro\Destination\Method")
+     * @ORM\OneToOne(targetEntity="SonnyBlaine\Integrator\Destination\Method")
      * @ORM\JoinColumn(name="method_id", referencedColumnName="id")
      * @var Method
      */
@@ -41,7 +41,7 @@ class Destination
 
     /**
      * Data mapping
-     * @ORM\Embedded(class="Simonetti\IntegradorFinanceiro\Source\Destination\DataMapping", columnPrefix=false)
+     * @ORM\Embedded(class="SonnyBlaine\Integrator\Source\Destination\DataMapping", columnPrefix=false)
      * @var DataMapping
      */
     protected $dataMapping;

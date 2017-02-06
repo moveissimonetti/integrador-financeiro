@@ -1,11 +1,11 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro;
+namespace SonnyBlaine\Integrator;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Connection
- * @package Simonetti\IntegradorFinanceiro
+ * @package SonnyBlaine\Integrator
  * @ORM\Entity()
  * @ORM\Table(name="connection")
  */

@@ -1,18 +1,16 @@
 <?php
+namespace SonnyBlaine\Integrator\Tests\Destination;
 
-namespace Simonetti\IntegradorFinanceiro\Tests\Destination;
-
-use Simonetti\IntegradorFinanceiro\Destination\Request;
-use Simonetti\IntegradorFinanceiro\Source\Destination as SourceDestination;
-use Simonetti\IntegradorFinanceiro\Source\Request as SourceRequest;
+use SonnyBlaine\Integrator\Destination\Request;
+use SonnyBlaine\Integrator\Source\Destination as SourceDestination;
+use SonnyBlaine\Integrator\Source\Request as SourceRequest;
 
 /**
  * Class RequestTest
- * @package Simonetti\IntegradorFinanceiro\Tests\Destination
+ * @package SonnyBlaine\Integrator\Tests\Destination
  */
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testValidateConstruct()
     {
         $mockSource = $this->getMockBuilder(SourceRequest::class)
@@ -36,5 +34,4 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(SourceRequest::class, $request->getSourceRequest());
         $this->assertInstanceOf(SourceDestination::class, $request->getDestination());
     }
-
 }

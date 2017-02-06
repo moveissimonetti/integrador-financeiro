@@ -1,12 +1,12 @@
 <?php
 
-namespace Simonetti\IntegradorFinanceiro\Destination;
+namespace SonnyBlaine\Integrator\Destination;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Method
- * @package Simonetti\IntegradorFinanceiro\Destination
+ * @package SonnyBlaine\Integrator\Destination
  * @ORM\Entity()
  * @ORM\Table(name="method")
  */

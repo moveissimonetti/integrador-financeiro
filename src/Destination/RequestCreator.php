@@ -1,12 +1,12 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Destination;
+namespace SonnyBlaine\Integrator\Destination;
 
-use Simonetti\IntegradorFinanceiro\ConnectionManager;
-use Simonetti\IntegradorFinanceiro\Source;
+use SonnyBlaine\Integrator\ConnectionManager;
+use SonnyBlaine\Integrator\Source;
 
 /**
  * Class RequestCreator
- * @package Simonetti\IntegradorFinanceiro\Destination
+ * @package SonnyBlaine\Integrator\Destination
  */
 class RequestCreator
 {

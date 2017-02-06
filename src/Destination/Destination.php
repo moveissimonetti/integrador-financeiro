@@ -1,6 +1,6 @@
 <?php
 
-namespace Simonetti\IntegradorFinanceiro\Destination;
+namespace SonnyBlaine\Integrator\Destination;
 
 use Doctrine\Common\Collections\Collection as MethodsCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Destination
- * @package Simonetti\IntegradorFinanceiro\Destination
+ * @package SonnyBlaine\Integrator\Destination
  * @ORM\Entity()
  * @ORM\Table(name="final_destination")
  */
@@ -46,7 +46,7 @@ class Destination
 
     /**
      * Destination methods
-     * @ORM\ManyToMany(targetEntity="Simonetti\IntegradorFinanceiro\Destination\Method")
+     * @ORM\ManyToMany(targetEntity="SonnyBlaine\Integrator\Destination\Method")
      * @ORM\JoinTable(name="final_destination_method",
      *     joinColumns={@ORM\JoinColumn(name="final_destination_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="method_id", referencedColumnName="id")}

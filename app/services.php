@@ -1,11 +1,11 @@
 <?php
-use Simonetti\IntegradorFinanceiro\ConnectionManager;
-use Simonetti\IntegradorFinanceiro\Services\RequestService;
-use Simonetti\IntegradorFinanceiro\Destination;
-use Simonetti\IntegradorFinanceiro\Source;
-use Simonetti\IntegradorFinanceiro\Rabbit;
-use Simonetti\IntegradorFinanceiro\Services\SourceService;
-use Simonetti\IntegradorFinanceiro\BridgeFactory;
+use SonnyBlaine\Integrator\ConnectionManager;
+use SonnyBlaine\Integrator\Services\RequestService;
+use SonnyBlaine\Integrator\Destination;
+use SonnyBlaine\Integrator\Source;
+use SonnyBlaine\Integrator\Rabbit;
+use SonnyBlaine\Integrator\Services\SourceService;
+use SonnyBlaine\Integrator\BridgeFactory;
 
 /* Repositories */
 $app['source.request.repository'] = function () use ($app) {

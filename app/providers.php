@@ -32,7 +32,7 @@ $app->register(new \Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider(), [
         'mappings' => [
             [
                 'type'                         => 'annotation',
-                'namespace'                    => 'Simonetti\IntegradorFinanceiro',
+                'namespace'                    => 'SonnyBlaine\Integrator',
                 'path'                         => __DIR__ . '/../src',
                 'use_simple_annotation_reader' => false,
             ],

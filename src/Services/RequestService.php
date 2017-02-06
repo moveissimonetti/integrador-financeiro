@@ -1,15 +1,15 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Services;
+namespace SonnyBlaine\Integrator\Services;
 
-use Simonetti\IntegradorFinanceiro\Destination\RequestCreator as DestinationRequestCreator;
-use Simonetti\IntegradorFinanceiro\Source\Request as SourceRequest;
-use Simonetti\IntegradorFinanceiro\Source\RequestRepository as SourceRequestRepository;
-use Simonetti\IntegradorFinanceiro\Destination\RequestRepository as DestinationRequestRepository;
-use Simonetti\IntegradorFinanceiro\Source\Source;
+use SonnyBlaine\Integrator\Destination\RequestCreator as DestinationRequestCreator;
+use SonnyBlaine\Integrator\Source\Request as SourceRequest;
+use SonnyBlaine\Integrator\Source\RequestRepository as SourceRequestRepository;
+use SonnyBlaine\Integrator\Destination\RequestRepository as DestinationRequestRepository;
+use SonnyBlaine\Integrator\Source\Source;
 
 /**
  * Class RequestService
- * @package Simonetti\IntegradorFinanceiro\Services
+ * @package SonnyBlaine\Integrator\Services
  */
 class RequestService
 {

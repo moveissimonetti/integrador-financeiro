@@ -1,12 +1,12 @@
 <?php
 
-namespace Simonetti\IntegradorFinanceiro\Source\Destination;
+namespace SonnyBlaine\Integrator\Source\Destination;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class DataMapping
- * @package Simonetti\IntegradorFinanceiro\Source\Destination
+ * @package SonnyBlaine\Integrator\Source\Destination
  * @ORM\Embeddable()
  */
 class DataMapping

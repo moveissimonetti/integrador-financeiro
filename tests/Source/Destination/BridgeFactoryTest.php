@@ -1,15 +1,14 @@
 <?php
-
-namespace Simonetti\IntegradorFinanceiro\Tests;
+namespace SonnyBlaine\Integrator\Tests;
 
 use Pimple\Container;
-use Simonetti\IntegradorFinanceiro\BridgeFactory;
-use Simonetti\IntegradorFinanceiro\BridgeInterface;
-use Simonetti\IntegradorFinanceiro\Destination\Request;
+use SonnyBlaine\Integrator\BridgeFactory;
+use SonnyBlaine\Integrator\BridgeInterface;
+use SonnyBlaine\Integrator\Destination\Request;
 
 /**
  * Class BridgeFactoryTest
- * @package Simonetti\IntegradorFinanceiro\Tests
+ * @package SonnyBlaine\Integrator\Tests
  */
 class BridgeFactoryTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,12 +1,14 @@
 <?php
+namespace SonnyBlaine\Integrator\Tests;
 
-namespace Simonetti\Integrador\Tests;
+use SonnyBlaine\Integrator\Destination\Method;
 
-use Simonetti\IntegradorFinanceiro\Destination\Method;
-
+/**
+ * Class MethodTest
+ * @package SonnyBlaine\Integrator\Tests
+ */
 class MethodTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testValidateProperties()
     {
         $description = 'IncluirPessoaJuridica';
@@ -21,5 +23,4 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('nome', $method->getParams());
         $this->assertArrayHasKey('cpf', $method->getParams());
     }
-
 }

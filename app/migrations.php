@@ -26,9 +26,9 @@ if (true === $console->getHelperSet()->has('em')) {
 
 $configuration = new Configuration($app['db'], $app['migrations.output_writer']);
 $configuration->setMigrationsDirectory(__DIR__ . '/DoctrineMigrations');
-$configuration->setName('Integrador Financeiro');
-$configuration->setMigrationsNamespace('Simonetti\\IntegradorFinanceiro');
-$configuration->setMigrationsTableName('migrations_integrador_financeiro');
+$configuration->setName('Integrator');
+$configuration->setMigrationsNamespace('SonnyBlaine\\Integrator');
+$configuration->setMigrationsTableName('migrations_integrator');
 $configuration->registerMigrationsFromDirectory(__DIR__ . '/../src');
 
 foreach ($commands as $name) {

@@ -1,11 +1,11 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Tests;
+namespace SonnyBlaine\Integrator\Tests;
 
-use Simonetti\IntegradorFinanceiro\Connection;
+use SonnyBlaine\Integrator\Connection;
 
 /**
  * Class ConnectionTest
- * @package Simonetti\IntegradorFinanceiro\Tests
+ * @package SonnyBlaine\Integrator\Tests
  */
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {

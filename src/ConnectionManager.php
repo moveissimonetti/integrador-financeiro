@@ -1,12 +1,12 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro;
+namespace SonnyBlaine\Integrator;
 
 use Doctrine\DBAL\Connection AS DBALConnection;
 use Doctrine\DBAL\DriverManager;
 
 /**
  * Class ConnectionManager
- * @package Simonetti\IntegradorFinanceiro
+ * @package SonnyBlaine\Integrator
  */
 class ConnectionManager
 {

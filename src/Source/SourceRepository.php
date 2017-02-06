@@ -1,11 +1,11 @@
 <?php
-namespace Simonetti\IntegradorFinanceiro\Source;
+namespace SonnyBlaine\Integrator\Source;
 
 use Doctrine\ORM\EntityRepository;
 
 /**
  * Class SourceRepository
- * @package Simonetti\IntegradorFinanceiro\Source
+ * @package SonnyBlaine\Integrator\Source
  */
 class SourceRepository extends EntityRepository
 {
