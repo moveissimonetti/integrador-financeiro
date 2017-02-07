@@ -3,8 +3,8 @@ namespace SonnyBlaine\Integrator\Tests;
 
 use Pimple\Container;
 use SonnyBlaine\Integrator\BridgeFactory;
-use SonnyBlaine\Integrator\BridgeInterface;
-use SonnyBlaine\Integrator\Destination\Request;
+use SonnyBlaine\IntegratorBridge\BridgeInterface;
+use SonnyBlaine\IntegratorBridge\RequestInterface;
 
 /**
  * Class BridgeFactoryTest
@@ -25,13 +25,7 @@ class BridgeFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new BridgeFactory($this->container);
 
-        $bridge = (new class() implements BridgeInterface
-        {
-            public function integrate(Request $request)
-            {
-                return true;
-            }
-        });
+        $bridge = $this->getBridge();
 
         $this->assertCount(0, $factory->getBridges());
 
@@ -49,13 +43,7 @@ class BridgeFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new BridgeFactory($this->container);
 
-        $bridge = (new class() implements BridgeInterface
-        {
-            public function integrate(Request $request)
-            {
-                return true;
-            }
-        });
+        $bridge = $this->getBridge();
 
         $factory->addBridge($bridge, 'key');
 
@@ -67,18 +55,23 @@ class BridgeFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new BridgeFactory($this->container);
 
-        $bridge = (new class() implements BridgeInterface
-        {
-            public function integrate(Request $request)
-            {
-                return true;
-            }
-        });
+        $bridge = $this->getBridge();
 
         $factory->addBridge($bridge, 'key');
 
         $return = $factory->factory('key');
 
         $this->assertEquals($bridge, $return);
+    }
+
+    protected function getBridge()
+    {
+        return (new class() implements BridgeInterface
+        {
+            public function integrate(RequestInterface $request)
+            {
+                return true;
+            }
+        });
     }
 }
