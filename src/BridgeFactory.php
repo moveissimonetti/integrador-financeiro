@@ -2,6 +2,7 @@
 namespace SonnyBlaine\Integrator;
 
 use Pimple\Container;
+use SonnyBlaine\IntegratorBridge\BridgeInterface;
 
 class BridgeFactory
 {

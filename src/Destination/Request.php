@@ -4,6 +4,7 @@ namespace SonnyBlaine\Integrator\Destination;
 use Doctrine\ORM\Mapping as ORM;
 use SonnyBlaine\Integrator\Source\Destination;
 use SonnyBlaine\Integrator\Source\Request as SourceRequest;
+use SonnyBlaine\IntegratorBridge\RequestInterface;
 
 /**
  * Class Request
@@ -11,7 +12,7 @@ use SonnyBlaine\Integrator\Source\Request as SourceRequest;
  * @ORM\Entity(repositoryClass="SonnyBlaine\Integrator\Destination\RequestRepository")
  * @ORM\Table(name="destination_request")
  */
-class Request
+class Request implements RequestInterface
 {
     /**
      * Destination Request ID
