@@ -96,7 +96,7 @@ class Request implements RequestInterface
      */
     public function getMethodIdentifier(): string
     {
-        return $this->getMethod()->getIdentifier();
+        return $this->destination->getMethod()->getIdentifier();
     }
 
     /**
