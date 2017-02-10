@@ -94,6 +94,14 @@ class Request implements RequestInterface
     /**
      * @return string
      */
+    public function getMethodIdentifier(): string
+    {
+        return $this->getMethod()->getIdentifier();
+    }
+
+    /**
+     * @return string
+     */
     public function getBridge(): string
     {
         return $this->destination->getFinalDestination()->getBridge();
