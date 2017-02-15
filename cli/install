@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Installing dependencies by Composer
-echo -e "\nInstalling dependencies...\n"
-composer install
+# Updating dependencies by Composer
+echo -e "\nUpdating dependencies...\n"
+composer update
 
 # Running Doctrine Migrations
 echo -e "\nRunning Doctrine Migrations...\n"
