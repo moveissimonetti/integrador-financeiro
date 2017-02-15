@@ -25,6 +25,10 @@ $helperSet = new HelperSet([
 
 $console->setHelperSet($helperSet);
 
+$consumer = new \fiunchinho\Silex\Command\Consumer();
+$consumer->setSilexApplication($app);
+$console->add($consumer);
+
 Doctrine\ORM\Tools\Console\ConsoleRunner::addCommands($console);
 
 include __DIR__ . '/migrations.php';
