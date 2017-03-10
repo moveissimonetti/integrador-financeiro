@@ -50,5 +50,13 @@
             "email": "basilio.ferraz@moveissimonetti.com.br"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "scripts": {
+        "post-update-cmd": [
+            "SonnyBlaine\\Integrator\\ScriptHandler::registerProviders"
+        ],
+        "post-install-cmd": [
+            "SonnyBlaine\\Integrator\\ScriptHandler::registerProviders"
+        ]
+    }
 }
