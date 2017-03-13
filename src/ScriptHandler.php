@@ -9,7 +9,7 @@ class ScriptHandler
 {
     public static function registerProviders()
     {
-        $filename = APP_PATH . '/composer.local.json';
+        $filename = __DIR__ . '/../app/composer.local.json';
 
         $data = json_decode(file_get_contents($filename), true);
 
@@ -32,6 +32,6 @@ PHP;
 %s
 PHP;
 
-        file_put_contents(APP_PATH . '/providers_bridges.php', sprintf($providersContent, implode(PHP_EOL, $providers)));
+        file_put_contents(__DIR__ . '/../app/providers_bridges.php', sprintf($providersContent, implode(PHP_EOL, $providers)));
     }
 }
