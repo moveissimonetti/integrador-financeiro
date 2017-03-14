@@ -52,7 +52,7 @@ class RequestCreator
     protected function fetchDataList(Source\Request $sourceRequest): array
     {
         $connection = $this->connectionManager->getConnection($sourceRequest->getConnection());
-        $dataList = $connection->fetchAll($sourceRequest->getSql())[0];
+        $dataList = $connection->fetchAll($sourceRequest->getSql(), ['param' => $sourceRequest->getQueryParameter()])[0];
 
         if (empty($dataList)) {
             throw new \Exception("No records found in the database to compose the request.");
