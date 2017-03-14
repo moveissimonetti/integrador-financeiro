@@ -1,7 +1,7 @@
 <?php
 namespace SonnyBlaine\Integrator\Source;
 
-use Doctrine\Common\Collections\ArrayCollection as DestinationsCollection;
+use Doctrine\Common\Collections\Collection as DestinationsCollection;
 use Doctrine\Common\Collections\ArrayCollection as DestinationRequestsCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SonnyBlaine\Integrator\Connection;
@@ -34,10 +34,10 @@ class Request
 
     /**
      * Query Parameter
-     * @ORM\Column(type="string", name="query_pamameter")
+     * @ORM\Column(type="string", name="query_parameter")
      * @var string
      */
-    protected $queryPamameter;
+    protected $queryParameter;
 
     /**
      * Collection of Destination Requests
@@ -54,7 +54,7 @@ class Request
     public function __construct(Source $source, string $queryParameter)
     {
         $this->source = $source;
-        $this->queryPamameter = $queryParameter;
+        $this->queryParameter = $queryParameter;
     }
 
     /**
@@ -100,9 +100,9 @@ class Request
     /**
      * @return string
      */
-    public function getQueryPamameter(): string
+    public function getQueryParameter(): string
     {
-        return $this->queryPamameter;
+        return $this->queryParameter;
     }
 
     /**
