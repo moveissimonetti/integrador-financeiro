@@ -25,7 +25,7 @@ class Destination
 
     /**
      * Final destination
-     * @ORM\OneToOne(targetEntity="SonnyBlaine\Integrator\Destination\Destination")
+     * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Destination\Destination")
      * @ORM\JoinColumn(name="final_destination_id", referencedColumnName="id")
      * @var FinalDestination
      */
@@ -33,7 +33,7 @@ class Destination
 
     /**
      * Destination method
-     * @ORM\OneToOne(targetEntity="SonnyBlaine\Integrator\Destination\Method")
+     * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Destination\Method")
      * @ORM\JoinColumn(name="method_id", referencedColumnName="id")
      * @var Method
      */
