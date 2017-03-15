@@ -2,7 +2,7 @@
 
 namespace SonnyBlaine\Integrator\Source;
 
-use Doctrine\Common\Collections\ArrayCollection as DestinationsCollection;
+use Doctrine\Common\Collections\Collection as DestinationsCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SonnyBlaine\Integrator\Connection;
 
@@ -41,7 +41,7 @@ class Source
 
     /**
      * Base SQL
-     * @ORM\Column(type="string", name="query")
+     * @ORM\Column(type="text", name="query")
      * @var string
      */
     protected $sql;

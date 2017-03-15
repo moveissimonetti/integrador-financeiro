@@ -7,11 +7,6 @@ use SonnyBlaine\IntegratorBridge\BridgeInterface;
 class BridgeFactory
 {
     /**
-     * @var array
-     */
-    protected $bridges = [];
-
-    /**
      * @var Container
      */
     protected $container;
@@ -26,33 +21,16 @@ class BridgeFactory
     }
 
     /**
-     * @param BridgeInterface $bridge
-     * @param string $key
-     */
-    public function addBridge(BridgeInterface $bridge, string $key)
-    {
-        $this->bridges[$key] = $bridge;
-    }
-
-    /**
-     * @return array
-     */
-    public function getBridges(): array
-    {
-        return $this->bridges;
-    }
-
-    /**
      * @param string $bridgeIdentifier
      * @return BridgeInterface
      * @throws \Exception
      */
     public function factory(string $bridgeIdentifier): BridgeInterface
     {
-        if (!isset($this->bridges[$bridgeIdentifier])) {
+        if (!$this->container->offsetExists($bridgeIdentifier)) {
             throw new \Exception('Bridge not found');
         }
 
-        return $this->bridges[$bridgeIdentifier];
+        return $this->container->offsetGet($bridgeIdentifier);
     }
 }

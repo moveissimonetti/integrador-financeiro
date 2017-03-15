@@ -20,17 +20,25 @@ services:
             - ./.data/db:/var/lib/mysql
             - ./:/var/www/html
             - /tmp:/tmp
+        ports:
+            - 3307:3306
     apache:
         image: lojassimonetti/apache2-php7-silex:latest
         volumes:
             - ./:/var/www/html
+            - ./composer.local.json:/var/www/html/app/composer.local.json
+            - ./provisioning/supervisor.conf:/etc/supervisor/conf.d/workers.conf
             - ~/.ssh:/root/.ssh
             - ~/.composer:/root/.composer
         working_dir: /var/www/html
         links:
             - db
+            - rabbit
         ports:
-            - 8090:80
+            - 8081:80
+            - 8091:9001
+        env_file:
+            - .env
     rabbit:
         build:
             context: .

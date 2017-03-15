@@ -12,6 +12,9 @@ use SonnyBlaine\IntegratorBridge\RequestInterface;
  */
 class BridgeFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|Container
+     */
     protected $container;
 
     public function setUp()
@@ -21,20 +24,6 @@ class BridgeFactoryTest extends \PHPUnit_Framework_TestCase
             ->getMock();
     }
 
-    public function testAddBridgeMustIncreaseListOfBridges()
-    {
-        $factory = new BridgeFactory($this->container);
-
-        $bridge = $this->getBridge();
-
-        $this->assertCount(0, $factory->getBridges());
-
-        $factory->addBridge($bridge, 'key');
-
-        $this->assertCount(1, $factory->getBridges());
-        $this->assertContainsOnlyInstancesOf(BridgeInterface::class, $factory->getBridges());
-    }
-
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage Bridge not found
@@ -42,24 +31,22 @@ class BridgeFactoryTest extends \PHPUnit_Framework_TestCase
     public function testFactoryMustThrowExceptionIfNotFoundBridge()
     {
         $factory = new BridgeFactory($this->container);
-
-        $bridge = $this->getBridge();
-
-        $factory->addBridge($bridge, 'key');
-
-        $factory->factory('');
+        $factory->factory('test.test');
     }
-
 
     public function testFactoryMustReturnCorrectBridge()
     {
-        $factory = new BridgeFactory($this->container);
-
         $bridge = $this->getBridge();
 
-        $factory->addBridge($bridge, 'key');
+        $this->container->method('offsetExists')
+            ->willReturn(true);
 
-        $return = $factory->factory('key');
+        $this->container->method('offsetGet')
+            ->willReturn($bridge);
+
+        $factory = new BridgeFactory($this->container);
+
+        $return = $factory->factory('test.test');
 
         $this->assertEquals($bridge, $return);
     }

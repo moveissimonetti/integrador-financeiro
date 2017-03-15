@@ -25,7 +25,7 @@ class Request implements RequestInterface
 
     /**
      * Destination
-     * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Destination\Destination")
+     * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Source\Destination")
      * @ORM\JoinColumn(name="destination_id", referencedColumnName="id")
      * @var Destination
      */

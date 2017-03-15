@@ -27,6 +27,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(Source::class, $request->getSource());
         $this->assertEquals($source, $request->getSource());
-        $this->assertEquals($queryParameter, $request->getQueryPamameter());
+        $this->assertEquals($queryParameter, $request->getQueryParameter());
     }
 }

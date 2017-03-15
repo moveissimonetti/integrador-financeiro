@@ -6,6 +6,7 @@ use SonnyBlaine\Integrator\Source;
 use SonnyBlaine\Integrator\Rabbit;
 use SonnyBlaine\Integrator\Services\SourceService;
 use SonnyBlaine\Integrator\BridgeFactory;
+use SonnyBlaine\Integrator\Services\IntegratorService;
 
 /* Repositories */
 $app['source.request.repository'] = function () use ($app) {
@@ -39,6 +40,15 @@ $app['request.service'] = function () use ($app) {
 
 $app['source.service'] = function () use ($app) {
     return new SourceService($app['source.repository']);
+};
+
+$app['integrator.service'] = function () use ($app) {
+    return new IntegratorService(
+        $app['orm.em']->getConnection(),
+        $app['source.service'],
+        $app['request.service'],
+        $app['rabbit.producer']['integrator_producer']
+    );
 };
 
 $app['bridge.factory'] = function () use ($app) {
