@@ -2,7 +2,7 @@
 namespace SonnyBlaine\Integrator\Source;
 
 use Doctrine\Common\Collections\Collection as DestinationsCollection;
-use Doctrine\Common\Collections\ArrayCollection as DestinationRequestsCollection;
+use Doctrine\Common\Collections\Collection as DestinationRequestsCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SonnyBlaine\Integrator\Connection;
 use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
