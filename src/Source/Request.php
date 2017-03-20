@@ -41,7 +41,7 @@ class Request
 
     /**
      * Collection of Destination Requests
-     * @ORM\OneToMany(targetEntity="SonnyBlaine\Integrator\Destination\Request", mappedBy="sourceRequest")
+     * @ORM\OneToMany(targetEntity="SonnyBlaine\Integrator\Destination\Request", mappedBy="sourceRequest", cascade={"ALL"})
      * @var DestinationRequestsCollection|DestinationRequest[]
      */
     protected $destinationRequests;
@@ -106,9 +106,9 @@ class Request
     }
 
     /**
-     * @return DestinationRequestsCollection|DestinationRequest[]
+     * @return null|DestinationRequestsCollection|DestinationRequest[]
      */
-    public function getDestinationRequests(): DestinationRequestsCollection
+    public function getDestinationRequests(): ?DestinationRequestsCollection
     {
         return $this->destinationRequests;
     }
@@ -119,5 +119,13 @@ class Request
     public function getSourceIdentifier(): string
     {
         return $this->source->getIdentifier();
+    }
+
+    /**
+     * @param DestinationRequest $request
+     */
+    public function addDestinationRequest(DestinationRequest $request)
+    {
+        $this->destinationRequests->add($request);
     }
 }

@@ -51,6 +51,18 @@ class RequestService
      */
     public function createSourceRequest(Source $source, string $queryParameter): SourceRequest
     {
+        /**
+         * @var $request SourceRequest
+         */
+        $request = $this->sourceRequestRepository->findOneBy([
+            'source' => $source,
+            'queryParameter' => $queryParameter,
+        ]);
+
+        if ($request) {
+            return $request;
+        }
+
         $sourceRequest = new SourceRequest($source, $queryParameter);
 
         $this->sourceRequestRepository->save($sourceRequest);
@@ -60,22 +72,18 @@ class RequestService
 
     /**
      * @param SourceRequest $sourceRequest
-     * @return array
      * @throws \Exception
+     * @return void
      */
-    public function createDestinationRequest(SourceRequest $sourceRequest): array
+    public function createDestinationRequest(SourceRequest $sourceRequest): void
     {
-        $requests = $this->destinationRequestCreator->create($sourceRequest);
+        $this->destinationRequestCreator->create($sourceRequest);
 
-        if (empty($requests)) {
+        if (empty($sourceRequest->getDestinationRequests()->count())) {
             throw new \Exception('Destination Requests list is empty.');
         }
 
-        foreach ($requests as $request) {
-            $this->destinationRequestRepository->save($request);
-        }
-
-        return $requests;
+        $this->sourceRequestRepository->save($sourceRequest);
     }
 
     /**
