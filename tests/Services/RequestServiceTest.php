@@ -4,6 +4,7 @@ namespace SonnyBlaine\Integrator\Tests\Services;
 use SonnyBlaine\Integrator\Services\RequestService;
 use SonnyBlaine\Integrator\Source\Request as SourceRequest;
 use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
+use SonnyBlaine\Integrator\Source\Request;
 use SonnyBlaine\Integrator\Source\RequestRepository as SourceRequestRepository;
 use SonnyBlaine\Integrator\Destination\RequestRepository as DestinationRequestRepository;
 use SonnyBlaine\Integrator\Destination\RequestCreator as DestinationRequestCreator;
@@ -21,7 +22,7 @@ class RequestServiceTest extends \PHPUnit_Framework_TestCase
     protected $destinationRequestCreator;
 
     /**
-     * @var SourceRequestRepository
+     * @var SourceRequestRepository|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $sourceRequestRepository;
 
@@ -45,6 +46,28 @@ class RequestServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
     }
 
+    public function testCreateSourceRequestMustReturnExistingRequestIfAlreadyExists()
+    {
+        /**
+         * @var $source Source
+         */
+        $source = $this->getMockBuilder(Source::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $queryParameter = '123';
+
+        $existingRequest = new Request($source, $queryParameter);
+
+        $this->sourceRequestRepository->method('findOneBy')
+            ->willReturn($existingRequest);
+
+        $service = $this->getRequestService();
+        $sourceRequest = $service->createSourceRequest($source, $queryParameter);
+
+        $this->assertSame($existingRequest, $sourceRequest);
+    }
+
     public function testCreateSourceRequestMustReturnInstanceOfSourceRequest()
     {
         /**
@@ -55,6 +78,9 @@ class RequestServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $queryParameter = '123';
+
+        $this->sourceRequestRepository->method('findOneBy')
+            ->willReturn(null);
 
         $service = $this->getRequestService();
         $sourceRequest = $service->createSourceRequest($source, $queryParameter);
@@ -68,9 +94,6 @@ class RequestServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateDestinationRequestMustThrowExceptionIfNotFoundRequestsToCreate()
     {
-        $this->destinationRequestCreator->method('create')
-            ->willReturn([]);
-
         /**
          * @var $sourceRequest SourceRequest|\PHPUnit_Framework_MockObject_MockObject
          */
@@ -80,28 +103,6 @@ class RequestServiceTest extends \PHPUnit_Framework_TestCase
 
         $service = $this->getRequestService();
         $service->createDestinationRequest($sourceRequest);
-    }
-
-    public function testCreateDestinationRequestMustListOfDestinationRequests()
-    {
-        $destinationRequest = $this->getMockBuilder(DestinationRequest::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->destinationRequestCreator->method('create')
-            ->willReturn([$destinationRequest]);
-
-        /**
-         * @var $sourceRequest SourceRequest|\PHPUnit_Framework_MockObject_MockObject
-         */
-        $sourceRequest = $this->getMockBuilder(SourceRequest::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $service = $this->getRequestService();
-        $destinationRequests = $service->createDestinationRequest($sourceRequest);
-
-        $this->assertContainsOnlyInstancesOf(DestinationRequest::class, $destinationRequests);
     }
 
     /**
