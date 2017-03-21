@@ -45,34 +45,6 @@ class RequestCreatorTest extends \PHPUnit_Framework_TestCase
         $requestCreator->create($this->sourceRequest);
     }
 
-    public function testCreateMustReturnOnlyInstanceOfDestinationRequest()
-    {
-        $this->connectionManager->method('getConnection')
-            ->willReturn($this->getDbalConnection());
-
-        $this->sourceRequest->method('getDestinations')
-            ->willReturn(new ArrayCollection([$this->getDestination()]));
-
-        $requestCreator = new RequestCreator($this->connectionManager);
-        $requests = $requestCreator->create($this->sourceRequest);
-
-        $this->assertContainsOnlyInstancesOf(Destination\Request::class, $requests);
-    }
-
-    public function testCreateMustReturnTwoDestinationRequests()
-    {
-        $this->connectionManager->method('getConnection')
-            ->willReturn($this->getDbalConnection());
-
-        $this->sourceRequest->method('getDestinations')
-            ->willReturn(new ArrayCollection([$this->getDestination(), $this->getDestination()]));
-
-        $requestCreator = new RequestCreator($this->connectionManager);
-        $requests = $requestCreator->create($this->sourceRequest);
-
-        $this->assertCount(2, $requests);
-    }
-
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|DBALConnection
      */

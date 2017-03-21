@@ -27,21 +27,17 @@ class RequestCreator
 
     /**
      * @param Source\Request $sourceRequest Request Source
-     * @return array
+     * @return void
      */
-    public function create(Source\Request $sourceRequest)
+    public function create(Source\Request $sourceRequest): void
     {
-        $requests = [];
-
         $dataList = $this->fetchDataList($sourceRequest);
 
         foreach ($sourceRequest->getDestinations() as $destination) {
             $dataObject = $this->createDataObject($destination, $dataList);
 
-            $requests[] = new Request($destination, $sourceRequest, $dataObject);
+            $sourceRequest->addDestinationRequest(new Request($destination, $sourceRequest, $dataObject));
         }
-
-        return $requests;
     }
 
     /**

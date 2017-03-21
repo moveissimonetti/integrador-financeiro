@@ -33,7 +33,7 @@ class Request implements RequestInterface
 
     /**
      * Source Request
-     * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Source\Request", inversedBy="destinationRequests")
+     * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Source\Request", inversedBy="destinationRequests", cascade={"ALL"})
      * @ORM\JoinColumn(name="source_request_id", referencedColumnName="id")
      * @var SourceRequest
      */

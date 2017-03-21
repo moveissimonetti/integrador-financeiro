@@ -64,9 +64,9 @@ class IntegratorService
 
             $sourceRequest = $this->requestService->createSourceRequest($source, $queryParameter);
 
-            $this->requestService->createDestinationRequest($sourceRequest);
-
-            $this->rabbitProducer->publish($sourceRequest->getId());
+            if (is_null($sourceRequest->getDestinationRequests()) || empty($sourceRequest->getDestinationRequests()->count())) {
+                $this->rabbitProducer->publish($sourceRequest->getId());
+            }
         });
 
         return $sourceRequest;
