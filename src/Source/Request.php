@@ -128,4 +128,12 @@ class Request
     {
         $this->destinationRequests->add($request);
     }
+
+    /**
+     * @return boolean
+     */
+    public function isAllowedMultipleResultset()
+    {
+        return $this->source->isAllowedMultipleResultset();
+    }
 }

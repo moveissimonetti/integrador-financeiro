@@ -33,10 +33,14 @@ class RequestCreator
     {
         $dataList = $this->fetchDataList($sourceRequest);
 
-        foreach ($sourceRequest->getDestinations() as $destination) {
-            $dataObject = $this->createDataObject($destination, $dataList);
+        foreach ($dataList as $data) {
+            foreach ($sourceRequest->getDestinations() as $destination) {
+                $dataObject = $this->createDataObject($destination, $data);
 
-            $sourceRequest->addDestinationRequest(new Request($destination, $sourceRequest, $dataObject));
+                $sourceRequest->addDestinationRequest(
+                    new Request($destination, $sourceRequest, $dataObject)
+                );
+            }
         }
     }
 
@@ -48,10 +52,14 @@ class RequestCreator
     protected function fetchDataList(Source\Request $sourceRequest): array
     {
         $connection = $this->connectionManager->getConnection($sourceRequest->getConnection());
-        $dataList = $connection->fetchAll($sourceRequest->getSql(), ['param' => $sourceRequest->getQueryParameter()])[0];
+        $dataList = $connection->fetchAll($sourceRequest->getSql(), ['param' => $sourceRequest->getQueryParameter()]);
 
         if (empty($dataList)) {
             throw new \Exception("No records found in the database to compose the request.");
+        }
+
+        if (!$sourceRequest->isAllowedMultipleResultset()) {
+            return array_slice($dataList, 0, 1);
         }
 
         return $dataList;

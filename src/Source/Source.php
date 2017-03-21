@@ -47,6 +47,13 @@ class Source
     protected $sql;
 
     /**
+     * Indicates that multiple database records can be used to create multiple requests
+     * @ORM\Column(type="boolean", name="is_allowed_multiple_resultset")
+     * @var boolean
+     */
+    protected $isAllowedMultipleResultset;
+
+    /**
      * List of destinations
      * @ORM\ManyToMany(targetEntity="SonnyBlaine\Integrator\Source\Destination")
      * @ORM\JoinTable(name="source_destination",
@@ -62,17 +69,20 @@ class Source
      * @param string $identifier
      * @param Connection $connection
      * @param string $sql
+     * @param bool $isAllowedMultipleResultset
      * @param DestinationsCollection $destinations
      */
     public function __construct(
         string $identifier,
         Connection $connection,
         string $sql,
+        bool $isAllowedMultipleResultset,
         DestinationsCollection $destinations
     ) {
         $this->identifier = $identifier;
         $this->connection = $connection;
         $this->sql = $sql;
+        $this->isAllowedMultipleResultset = $isAllowedMultipleResultset;
         $this->destinations = $destinations;
     }
 
@@ -106,6 +116,14 @@ class Source
     public function getSql(): string
     {
         return $this->sql;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAllowedMultipleResultset()
+    {
+        return $this->isAllowedMultipleResultset;
     }
 
     /**
