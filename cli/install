@@ -3,8 +3,3 @@
 # Updating dependencies by Composer
 echo -e "\nUpdating dependencies...\n"
 composer update
-
-# Running Doctrine Migrations
-echo -e "\nRunning Doctrine Migrations...\n"
-php app/console.php migrations:generate
-php app/console.php migrations:migrate
