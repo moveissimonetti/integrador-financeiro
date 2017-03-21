@@ -1,6 +1,7 @@
 <?php
 namespace SonnyBlaine\Integrator\Tests\Services;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SonnyBlaine\Integrator\Services\RequestService;
 use SonnyBlaine\Integrator\Source\Request as SourceRequest;
 use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
@@ -100,6 +101,9 @@ class RequestServiceTest extends \PHPUnit_Framework_TestCase
         $sourceRequest = $this->getMockBuilder(SourceRequest::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $sourceRequest->method('getDestinationRequests')
+            ->willReturn(new ArrayCollection());
 
         $service = $this->getRequestService();
         $service->createDestinationRequest($sourceRequest);
