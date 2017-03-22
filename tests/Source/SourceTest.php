@@ -26,6 +26,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         $identifier = '122345421';
         $sql = 'SELECT* FROM user WHERE 1 = 1';
         $isAllowedMultipleResultset = true;
+        $isAllowedMultipleRequests = true;
 
         $mockDestination1 = $this->getMockBuilder(Destination::class)
             ->disableOriginalConstructor()
@@ -40,13 +41,21 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             $mockDestination2
         ];
 
-        $source = new Source($identifier, $connection, $sql, $isAllowedMultipleResultset, new ArrayCollection($destinations));
+        $source = new Source(
+            $identifier,
+            $connection,
+            $sql,
+            $isAllowedMultipleResultset,
+            $isAllowedMultipleRequests,
+            new ArrayCollection($destinations)
+        );
 
         $this->assertInstanceOf(Source::class, $source);
         $this->assertEquals($identifier, $source->getIdentifier());
         $this->assertEquals($connection, $source->getConnection());
         $this->assertEquals($sql, $source->getSql());
         $this->assertEquals($isAllowedMultipleResultset, $source->isAllowedMultipleResultset());
+        $this->assertEquals($isAllowedMultipleRequests, $source->isAllowedMultipleRequests());
         $this->assertContainsOnlyInstancesOf(Destination::class, $source->getDestinations());
     }
 }
