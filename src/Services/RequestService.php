@@ -51,16 +51,18 @@ class RequestService
      */
     public function createSourceRequest(Source $source, string $queryParameter): SourceRequest
     {
-        /**
-         * @var $request SourceRequest
-         */
-        $request = $this->sourceRequestRepository->findOneBy([
-            'source' => $source,
-            'queryParameter' => $queryParameter,
-        ]);
+        if (!$source->isAllowedMultipleRequests()) {
+            /**
+             * @var $request SourceRequest
+             */
+            $request = $this->sourceRequestRepository->findOneBy([
+                'source' => $source,
+                'queryParameter' => $queryParameter,
+            ]);
 
-        if ($request) {
-            return $request;
+            if ($request) {
+                return $request;
+            }
         }
 
         $sourceRequest = new SourceRequest($source, $queryParameter);

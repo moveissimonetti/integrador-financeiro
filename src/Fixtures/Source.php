@@ -24,6 +24,7 @@ class SourceFixture extends AbstractFixture implements FixtureInterface, Ordered
             'identifier' => 'pessoa-juridica',
             'sql' => '',
             'is_allowed_multiple_resultset' => true,
+            'is_allowed_multiple_requests' => true,
         ],
     ];
 
@@ -48,6 +49,7 @@ class SourceFixture extends AbstractFixture implements FixtureInterface, Ordered
                 $connection,
                 $data['sql'],
                 $data['is_allowed_multiple_resultset'],
+                $data['is_allowed_multiple_requests'],
                 new ArrayCollection([$destination])
             );
 
