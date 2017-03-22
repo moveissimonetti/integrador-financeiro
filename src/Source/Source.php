@@ -54,6 +54,13 @@ class Source
     protected $isAllowedMultipleResultset;
 
     /**
+     * Indicates that multiple requests can be created with same source and query parameter
+     * @ORM\Column(type="boolean", name="is_allowed_multiple_requests")
+     * @var boolean
+     */
+    protected $isAllowedMultipleRequests;
+
+    /**
      * List of destinations
      * @ORM\ManyToMany(targetEntity="SonnyBlaine\Integrator\Source\Destination")
      * @ORM\JoinTable(name="source_destination",
@@ -70,6 +77,7 @@ class Source
      * @param Connection $connection
      * @param string $sql
      * @param bool $isAllowedMultipleResultset
+     * @param bool $isAllowedMultipleRequests
      * @param DestinationsCollection $destinations
      */
     public function __construct(
@@ -77,12 +85,14 @@ class Source
         Connection $connection,
         string $sql,
         bool $isAllowedMultipleResultset,
+        bool $isAllowedMultipleRequests,
         DestinationsCollection $destinations
     ) {
         $this->identifier = $identifier;
         $this->connection = $connection;
         $this->sql = $sql;
         $this->isAllowedMultipleResultset = $isAllowedMultipleResultset;
+        $this->isAllowedMultipleRequests = $isAllowedMultipleRequests;
         $this->destinations = $destinations;
     }
 
@@ -121,9 +131,17 @@ class Source
     /**
      * @return boolean
      */
-    public function isAllowedMultipleResultset()
+    public function isAllowedMultipleResultset(): bool
     {
         return $this->isAllowedMultipleResultset;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAllowedMultipleRequests(): bool
+    {
+        return $this->isAllowedMultipleRequests;
     }
 
     /**
