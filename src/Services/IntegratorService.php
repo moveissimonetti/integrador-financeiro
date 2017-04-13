@@ -2,7 +2,7 @@
 namespace SonnyBlaine\Integrator\Services;
 
 use Doctrine\DBAL\Connection;
-use OldSound\RabbitMqBundle\RabbitMq\Producer as RabbitProducer;
+use OldSound\RabbitMqBundle\RabbitMq\Producer as RequestCreatorProducer;
 use SonnyBlaine\Integrator\Source\Request;
 
 /**
@@ -27,27 +27,27 @@ class IntegratorService
     protected $requestService;
 
     /**
-     * @var RabbitProducer
+     * @var RequestCreatorProducer
      */
-    protected $rabbitProducer;
+    protected $requestCreatorProducer;
 
     /**
      * IntegratorService constructor.
      * @param Connection $connection
      * @param SourceService $sourceService
      * @param RequestService $requestService
-     * @param RabbitProducer $rabbitProducer
+     * @param RequestCreatorProducer $rabbitProducer
      */
     public function __construct(
         Connection $connection,
         SourceService $sourceService,
         RequestService $requestService,
-        RabbitProducer $rabbitProducer
+        RequestCreatorProducer $rabbitProducer
     ) {
         $this->connection = $connection;
         $this->sourceService = $sourceService;
         $this->requestService = $requestService;
-        $this->rabbitProducer = $rabbitProducer;
+        $this->requestCreatorProducer = $rabbitProducer;
     }
 
     /**
@@ -65,7 +65,7 @@ class IntegratorService
             $sourceRequest = $this->requestService->createSourceRequest($source, $queryParameter);
 
             if (is_null($sourceRequest->getDestinationRequests()) || empty($sourceRequest->getDestinationRequests()->count())) {
-                $this->rabbitProducer->publish($sourceRequest->getId());
+                $this->requestCreatorProducer->publish($sourceRequest->getId());
             }
         });
 

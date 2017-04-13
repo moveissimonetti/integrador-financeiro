@@ -52,7 +52,7 @@ class IntegratorConsumer implements ConsumerInterface
             echo "Starting integration. Source: " . $sourceRequest->getSourceIdentifier() . PHP_EOL;
 
             if (empty($sourceRequest->getDestinationRequests()->count())) {
-                $this->requestService->createDestinationRequest($sourceRequest);
+                throw new \Exception('There is no Requests to integrate.');
             }
 
             foreach ($sourceRequest->getDestinationRequests() as $destinationRequest) {
