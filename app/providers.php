@@ -88,6 +88,11 @@ $app->register(new \fiunchinho\Silex\Provider\RabbitServiceProvider(),
                 'exchange_options' => ['name' => 'integrator_e', 'type' => 'topic'],
                 'queue_options'    => ['name' => 'integrator'],
             ],
+            'request_creator_producer'  => [
+                'connection'       => 'default',
+                'exchange_options' => ['name' => 'request_creator_e', 'type' => 'topic'],
+                'queue_options'    => ['name' => 'request_creator'],
+            ],
         ],
 
         // Consumers
@@ -97,6 +102,12 @@ $app->register(new \fiunchinho\Silex\Provider\RabbitServiceProvider(),
                 'exchange_options' => ['name' => 'integrator_e', 'type' => 'topic'],
                 'queue_options'    => ['name' => 'integrator'],
                 'callback'         => 'integrator_consumer',
+            ],
+            'request_creator_consumer'  => [
+                'connection'       => 'default',
+                'exchange_options' => ['name' => 'request_creator_e', 'type' => 'topic'],
+                'queue_options'    => ['name' => 'request_creator'],
+                'callback'         => 'request_creator_consumer',
             ],
         ],
     ]

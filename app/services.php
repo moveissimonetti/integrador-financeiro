@@ -47,7 +47,7 @@ $app['integrator.service'] = function () use ($app) {
         $app['orm.em']->getConnection(),
         $app['source.service'],
         $app['request.service'],
-        $app['rabbit.producer']['integrator_producer']
+        $app['rabbit.producer']['request_creator_producer']
     );
 };
 
@@ -61,5 +61,13 @@ $app['integrator_consumer'] = function () use ($app) {
         $app['request.service'],
         $app['rabbit.producer']['integrator_producer'],
         $app['bridge.factory']
+    );
+};
+
+$app['request_creator_consumer'] = function () use ($app) {
+    return new Rabbit\RequestCreatorConsumer(
+        $app['request.service'],
+        $app['rabbit.producer']['request_creator_producer'],
+        $app['rabbit.producer']['integrator_producer']
     );
 };
