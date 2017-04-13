@@ -6,15 +6,24 @@ use Doctrine\Common\Collections\Collection as DestinationRequestsCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SonnyBlaine\Integrator\Connection;
 use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
+use SonnyBlaine\Integrator\ResponseInterface;
+use SonnyBlaine\Integrator\ResponseTrait;
+use SonnyBlaine\Integrator\TryCountInterface;
+use SonnyBlaine\Integrator\TryCountTrait;
 
 /**
  * Class Request
  * @package SonnyBlaine\Integrator\Source
  * @ORM\Entity(repositoryClass="SonnyBlaine\Integrator\Source\RequestRepository")
- * @ORM\Table(name="source_request")
+ * @ORM\Table(name="source_request", indexes={
+ *     @ORM\Index(name="success_idx", columns={"success"})
+ * })
  */
-class Request
+class Request implements TryCountInterface, ResponseInterface
 {
+    use TryCountTrait;
+    use ResponseTrait;
+
     /**
      * Source ID
      * @ORM\Id()
