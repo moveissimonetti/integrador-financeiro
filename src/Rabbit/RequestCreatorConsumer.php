@@ -60,15 +60,17 @@ class RequestCreatorConsumer implements ConsumerInterface
 
             $this->requestService->updateTryCount($sourceRequest, $tryCount);
 
-            echo "Attempt {$tryCount}...";
+            echo "Attempt {$tryCount}..." . PHP_EOL;
 
             if (empty($sourceRequest->getDestinationRequests()->count())) {
                 echo "Creating requests..." . PHP_EOL;
                 $this->requestService->createDestinationRequest($sourceRequest);
             }
 
-            echo "Publishing to integrate..." . PHP_EOL;
-            $this->integratorProducer->publish($msg->body);
+            foreach ($sourceRequest->getDestinationRequests() as $destinationRequest) {
+                echo "Publishing to integrate at {$destinationRequest->getDestinationIdentifier()}..." . PHP_EOL;
+                $this->integratorProducer->publish($destinationRequest->getId());
+            }
 
             $this->requestService->updateSourceRequestResponse($sourceRequest, true);
 

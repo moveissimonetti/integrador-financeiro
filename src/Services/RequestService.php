@@ -101,6 +101,15 @@ class RequestService
     }
 
     /**
+     * @param int $destinationRequestId Destination Request ID
+     * @return null|object|DestinationRequest
+     */
+    public function findDestinationRequest(int $destinationRequestId): ?DestinationRequest
+    {
+        return $this->destinationRequestRepository->find($destinationRequestId);
+    }
+
+    /**
      * @param TryCountInterface $request
      * @param int $tryCount
      */

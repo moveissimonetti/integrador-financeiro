@@ -2,18 +2,27 @@
 namespace SonnyBlaine\Integrator\Destination;
 
 use Doctrine\ORM\Mapping as ORM;
+use SonnyBlaine\Integrator\ResponseInterface;
+use SonnyBlaine\Integrator\ResponseTrait;
 use SonnyBlaine\Integrator\Source\Destination;
 use SonnyBlaine\Integrator\Source\Request as SourceRequest;
+use SonnyBlaine\Integrator\TryCountInterface;
+use SonnyBlaine\Integrator\TryCountTrait;
 use SonnyBlaine\IntegratorBridge\RequestInterface;
 
 /**
  * Class Request
  * @package SonnyBlaine\Integrator\Destination
  * @ORM\Entity(repositoryClass="SonnyBlaine\Integrator\Destination\RequestRepository")
- * @ORM\Table(name="destination_request")
+ * @ORM\Table(name="destination_request", indexes={
+ *     @ORM\Index(name="success_idx", columns={"success"})
+ * })
  */
-class Request implements RequestInterface
+class Request implements RequestInterface, TryCountInterface, ResponseInterface
 {
+    use TryCountTrait;
+    use ResponseTrait;
+
     /**
      * Destination Request ID
      * @ORM\Id()
@@ -57,6 +66,14 @@ class Request implements RequestInterface
         $this->destination = $destination;
         $this->sourceRequest = $sourceRequest;
         $this->data = $data;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     /**
@@ -113,5 +130,13 @@ class Request implements RequestInterface
     public function getDestinationIdentifier(): string
     {
         return $this->destination->getFinalDestination()->getIdentifier();
+    }
+
+    /**
+     * @return string
+     */
+    public function getSourceIdentifier(): string
+    {
+        return $this->sourceRequest->getSourceIdentifier();
     }
 }

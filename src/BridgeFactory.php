@@ -28,7 +28,7 @@ class BridgeFactory
     public function factory(string $bridgeIdentifier): BridgeInterface
     {
         if (!$this->container->offsetExists($bridgeIdentifier)) {
-            throw new \Exception('Bridge not found');
+            throw new \Exception('Bridge not found: ' . $bridgeIdentifier);
         }
 
         return $this->container->offsetGet($bridgeIdentifier);
