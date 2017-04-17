@@ -14,6 +14,8 @@ use SonnyBlaine\Integrator\Services\RequestService;
  */
 class RequestCreatorConsumer implements ConsumerInterface
 {
+    const MAX_TRY_COUNT = 20;
+
     /**
      * @var RequestService
      */
@@ -47,24 +49,51 @@ class RequestCreatorConsumer implements ConsumerInterface
 
     public function execute(AMQPMessage $msg)
     {
+        $sourceRequest = $tryCount = null;
+
         try {
             $sourceRequest = $this->requestService->findSourceRequest($msg->body);
 
             echo "Initializing requests creation. Source: " . $sourceRequest->getSourceIdentifier() . PHP_EOL;
+
+            $tryCount = $sourceRequest->getTryCount() + 1;
+
+            $this->requestService->updateTryCount($sourceRequest, $tryCount);
+
+            echo "Attempt {$tryCount}..." . PHP_EOL;
 
             if (empty($sourceRequest->getDestinationRequests()->count())) {
                 echo "Creating requests..." . PHP_EOL;
                 $this->requestService->createDestinationRequest($sourceRequest);
             }
 
-            echo "Publishing to integrate..." . PHP_EOL;
-            $this->integratorProducer->publish($msg->body);
+            foreach ($sourceRequest->getDestinationRequests() as $destinationRequest) {
+                echo "Publishing to integrate at {$destinationRequest->getDestinationIdentifier()}..." . PHP_EOL;
+                $this->integratorProducer->publish($destinationRequest->getId());
+            }
+
+            $this->requestService->updateSourceRequestResponse($sourceRequest, true);
 
             echo "Process completed" . PHP_EOL;
+
+            return true;
         } catch (\Exception $e) {
-            echo $e->getMessage() . PHP_EOL;
+            echo "Erro: " . $e->getMessage() . PHP_EOL;
+
+            if ($sourceRequest && self::MAX_TRY_COUNT == $tryCount) {
+                $this->requestService->updateSourceRequestResponse(
+                    $sourceRequest,
+                    false,
+                    $e->getMessage(),
+                    $e->getTraceAsString()
+                );
+
+                return true;
+            }
 
             $this->requestCreatorProducer->publish($msg->body);
+
+            return true;
         }
     }
 }

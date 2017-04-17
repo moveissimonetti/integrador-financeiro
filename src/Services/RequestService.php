@@ -2,10 +2,13 @@
 namespace SonnyBlaine\Integrator\Services;
 
 use SonnyBlaine\Integrator\Destination\RequestCreator as DestinationRequestCreator;
+use SonnyBlaine\Integrator\ResponseInterface;
 use SonnyBlaine\Integrator\Source\Request as SourceRequest;
 use SonnyBlaine\Integrator\Source\RequestRepository as SourceRequestRepository;
 use SonnyBlaine\Integrator\Destination\RequestRepository as DestinationRequestRepository;
+use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
 use SonnyBlaine\Integrator\Source\Source;
+use SonnyBlaine\Integrator\TryCountInterface;
 
 /**
  * Class RequestService
@@ -90,10 +93,58 @@ class RequestService
 
     /**
      * @param int $sourceRequestId Source Request ID
-     * @return null|SourceRequest
+     * @return null|object|SourceRequest
      */
     public function findSourceRequest(int $sourceRequestId): ?SourceRequest
     {
         return $this->sourceRequestRepository->find($sourceRequestId);
+    }
+
+    /**
+     * @param int $destinationRequestId Destination Request ID
+     * @return null|object|DestinationRequest
+     */
+    public function findDestinationRequest(int $destinationRequestId): ?DestinationRequest
+    {
+        return $this->destinationRequestRepository->find($destinationRequestId);
+    }
+
+    /**
+     * @param TryCountInterface $request
+     * @param int $tryCount
+     */
+    public function updateTryCount(TryCountInterface $request, int $tryCount)
+    {
+        $request->setTryCount($tryCount);
+
+        $this->getRepository($request)->save($request);
+    }
+
+    /**
+     * @param ResponseInterface $request
+     * @param bool $success
+     * @param string|null $msg
+     * @param string|null $errorTracer
+     */
+    public function updateSourceRequestResponse(ResponseInterface $request, bool $success, ?string $msg = null, ?string $errorTracer = null)
+    {
+        $request->setSuccess($success);
+        $request->setMsg($msg);
+        $request->setErrorTracer($errorTracer);
+
+        $this->getRepository($request)->save($request);
+    }
+
+    /**
+     * @param object $request
+     * @return DestinationRequestRepository|SourceRequestRepository
+     */
+    private function getRepository($request)
+    {
+        if ($request instanceof SourceRequest) {
+            return $this->sourceRequestRepository;
+        }
+
+        return $this->destinationRequestRepository;
     }
 }

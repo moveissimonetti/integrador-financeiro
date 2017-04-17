@@ -13,6 +13,8 @@ use SonnyBlaine\Integrator\Services\RequestService;
  */
 class IntegratorConsumer implements ConsumerInterface
 {
+    const MAX_TRY_COUNT = 20;
+
     /**
      * @var RequestService
      */
@@ -46,27 +48,48 @@ class IntegratorConsumer implements ConsumerInterface
 
     public function execute(AMQPMessage $msg)
     {
+        $destinationRequest = $tryCount = null;
+
         try {
-            $sourceRequest = $this->requestService->findSourceRequest($msg->body);
+            $destinationRequest = $this->requestService->findDestinationRequest($msg->body);
 
-            echo "Starting integration. Source: " . $sourceRequest->getSourceIdentifier() . PHP_EOL;
-
-            if (empty($sourceRequest->getDestinationRequests()->count())) {
-                throw new \Exception('There is no Requests to integrate.');
+            if (!$destinationRequest) {
+                throw new \Exception('There is no Request to integrate.');
             }
 
-            foreach ($sourceRequest->getDestinationRequests() as $destinationRequest) {
-                echo "Integrating with " . $destinationRequest->getDestinationIdentifier() . PHP_EOL;
+            echo "Starting integration. Source: " . $destinationRequest->getSourceIdentifier() . ". Destination: " . $destinationRequest->getDestinationIdentifier() . PHP_EOL;
 
-                $bridge = $this->bridgeFactory->factory($destinationRequest->getBridge());
-                $bridge->integrate($destinationRequest);
-            }
+            $tryCount = $destinationRequest->getTryCount() + 1;
+
+            $this->requestService->updateTryCount($destinationRequest, $tryCount);
+
+            echo "Attempt {$tryCount}..." . PHP_EOL;
+
+            $bridge = $this->bridgeFactory->factory($destinationRequest->getBridge());
+            $bridge->integrate($destinationRequest);
+
+            $this->requestService->updateSourceRequestResponse($destinationRequest, true);
 
             echo "Integration completed" . PHP_EOL;
+
+            return true;
         } catch (\Exception $e) {
-            echo $e->getMessage() . PHP_EOL;
+            echo "Erro: " . $e->getMessage() . PHP_EOL;
+
+            if ($destinationRequest && self::MAX_TRY_COUNT == $tryCount) {
+                $this->requestService->updateSourceRequestResponse(
+                    $destinationRequest,
+                    false,
+                    $e->getMessage(),
+                    $e->getTraceAsString()
+                );
+
+                return true;
+            }
 
             $this->rabbitProducer->publish($msg->body);
+
+            return true;
         }
     }
 }
