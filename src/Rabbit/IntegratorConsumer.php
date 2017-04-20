@@ -13,7 +13,7 @@ use SonnyBlaine\Integrator\Services\RequestService;
  */
 class IntegratorConsumer implements ConsumerInterface
 {
-    const MAX_TRY_COUNT = 20;
+    const MAX_TRY_COUNT = 10;
 
     /**
      * @var RequestService
