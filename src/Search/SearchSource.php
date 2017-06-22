@@ -1,4 +1,5 @@
 <?php
+
 namespace SonnyBlaine\Integrator\Search;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="search_source", schema="test")
  */
-class SearchSource {
+class SearchSource
+{
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -38,14 +40,12 @@ class SearchSource {
 
     /**
      * SearchSource constructor.
-     * @param int $id
-     * @param string $sourceId
-     * @param string $methodId
-     * @param string $bridge
+     * @param $sourceId
+     * @param $methodId
+     * @param $bridge
      */
-    public function __construct($id, $sourceId, $methodId, $bridge)
+    public function __construct($sourceId, $methodId, $bridge)
     {
-        $this->id = $id;
         $this->sourceId = $sourceId;
         $this->methodId = $methodId;
         $this->bridge = $bridge;

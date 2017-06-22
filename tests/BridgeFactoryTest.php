@@ -59,6 +59,16 @@ class BridgeFactoryTest extends \PHPUnit_Framework_TestCase
             {
                 return true;
             }
+
+            /**
+             * Retrieves data
+             * @param RequestInterface $request
+             * @return mixed
+             */
+            public function search(RequestInterface $request)
+            {
+                return true;
+            }
         });
     }
 }

@@ -14,7 +14,7 @@ class SearchRequest implements RequestInterface
      * @param $data
      * @param $identifier
      */
-    public function __construct($data, $identifier)
+    public function __construct(\stdClass $data, string $identifier)
     {
         $this->data = $data;
         $this->identifier = $identifier;
