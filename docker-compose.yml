@@ -47,4 +47,4 @@ services:
             RABBITMQ_DEFAULT_PASS: mestre
         ports:
             - 15673:15672
-            - 56723:5672
+            - 5673:5672

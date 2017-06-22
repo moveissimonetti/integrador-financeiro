@@ -1,7 +1,10 @@
 <?php
+
 namespace SonnyBlaine\Integrator\Controllers;
 
+use Simonetti\Rovereti\SearchResponse;
 use SonnyBlaine\Integrator\Services\IntegratorService;
+use SonnyBlaine\Integrator\Services\SearchService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -17,12 +20,18 @@ class IntegratorController
     protected $integratorService;
 
     /**
+     * @var SearchService
+     */
+    protected $searchService;
+
+    /**
      * IntegratorController constructor.
      * @param IntegratorService $integratorService
      */
-    public function __construct(IntegratorService $integratorService)
+    public function __construct(IntegratorService $integratorService, SearchService $searchService = null)
     {
         $this->integratorService = $integratorService;
+        $this->searchService = $searchService;
     }
 
     /**
@@ -43,6 +52,30 @@ class IntegratorController
             return new JsonResponse([
                 'requestId' => null,
                 'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function searchAction(Request $request)
+    {
+        try {
+            $params = [$request->get("sourceIdentifier"), (object)$request->request->all()];
+            return new JsonResponse(
+                [
+                    'error' => false,
+                    'data' => $data = $this->searchService
+                        ->search(...$params)
+                        ->jsonSerialize()
+                ]
+            );
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'error' => true,
+                'data' => $e->getMessage()
             ]);
         }
     }
