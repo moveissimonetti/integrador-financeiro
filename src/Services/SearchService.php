@@ -4,6 +4,7 @@ namespace SonnyBlaine\Integrator\Services;
 
 use Doctrine\ORM\EntityRepository;
 use SonnyBlaine\Integrator\BridgeFactory;
+use SonnyBlaine\Integrator\Search\Search;
 use SonnyBlaine\Integrator\Search\SearchRequest;
 use SonnyBlaine\Integrator\Search\SearchSource;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -36,7 +37,7 @@ class SearchService
      * @param \stdClass $parameters
      * @return mixed
      */
-    public function search(string $sourceIdentifier, \stdClass $parameters)
+    public function search(string $sourceIdentifier, \stdClass $parameters): Search
     {
         /**
          * @var SearchSource $searchSource
@@ -50,10 +51,13 @@ class SearchService
             throw new Exception("Sorry, search source not found!");
         }
 
-        return $this->bridgeFactory
-            ->factory($searchSource->getBridge())
-            ->search(
-                new SearchRequest($parameters, $searchSource->getMethodId())
-            );
+        return new Search(
+            $searchSource->getOriginName(),
+            $this->bridgeFactory
+                ->factory($searchSource->getBridge())
+                ->search(
+                    new SearchRequest($parameters, $searchSource->getMethodId())
+                )
+        );
     }
 }

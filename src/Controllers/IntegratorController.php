@@ -64,12 +64,14 @@ class IntegratorController
     {
         try {
             $params = [$request->get("sourceIdentifier"), (object)$request->request->all()];
+            $search = $this->searchService
+                ->search(...$params);
+
             return new JsonResponse(
                 [
                     'error' => false,
-                    'data' => $data = $this->searchService
-                        ->search(...$params)
-                        ->jsonSerialize()
+                    'origin' => $search->getOriginName(),
+                    'data' => $search->getResult()->jsonSerialize()
                 ]
             );
         } catch (\Exception $e) {

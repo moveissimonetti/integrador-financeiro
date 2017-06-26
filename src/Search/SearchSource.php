@@ -39,16 +39,24 @@ class SearchSource
     private $bridge;
 
     /**
+     * @ORM\Column(name="origin_name", type="string")
+     * @var string
+     */
+    private $originName;
+
+    /**
      * SearchSource constructor.
      * @param $sourceId
      * @param $methodId
      * @param $bridge
+     * @param $originName
      */
-    public function __construct($sourceId, $methodId, $bridge)
+    public function __construct($sourceId, $methodId, $bridge, $originName)
     {
         $this->sourceId = $sourceId;
         $this->methodId = $methodId;
         $this->bridge = $bridge;
+        $this->originName = $originName;
     }
 
     /**
@@ -113,5 +121,21 @@ class SearchSource
     public function setBridge(string $bridge)
     {
         $this->bridge = $bridge;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginName(): string
+    {
+        return $this->originName;
+    }
+
+    /**
+     * @param string $originName
+     */
+    public function setOriginName(string $originName)
+    {
+        $this->originName = $originName;
     }
 }
