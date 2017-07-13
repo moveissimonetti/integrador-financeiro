@@ -9,7 +9,7 @@ require_once __DIR__ . '/config.php';
 
 $app = new Application();
 
-if ('prod' == APP_ENV) {
+if ('dev' == APP_ENV) {
     $app['debug'] = true;
 }
 

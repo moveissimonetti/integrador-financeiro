@@ -7,6 +7,8 @@ use SonnyBlaine\Integrator\Rabbit;
 use SonnyBlaine\Integrator\Services\SourceService;
 use SonnyBlaine\Integrator\BridgeFactory;
 use SonnyBlaine\Integrator\Services\IntegratorService;
+use SonnyBlaine\Integrator\Search;
+use SonnyBlaine\Integrator\Services\SearchService;
 
 /* Repositories */
 $app['source.request.repository'] = function () use ($app) {
@@ -70,4 +72,12 @@ $app['request_creator_consumer'] = function () use ($app) {
         $app['rabbit.producer']['request_creator_producer'],
         $app['rabbit.producer']['integrator_producer']
     );
+};
+
+$app['search.source.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(Search\SearchSource::class);
+};
+
+$app['search.service'] = function () use ($app) {
+    return new SearchService($app['search.source.repository'], $app['bridge.factory']);
 };
