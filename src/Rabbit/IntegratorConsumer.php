@@ -68,6 +68,8 @@ class IntegratorConsumer implements ConsumerInterface
             $bridge = $this->bridgeFactory->factory($destinationRequest->getBridge());
             $bridge->integrate($destinationRequest);
 
+            $destinationRequest->setSuccessIn(new \DateTime());
+
             $this->requestService->updateSourceRequestResponse($destinationRequest, true);
 
             echo "Integration completed" . PHP_EOL;
