@@ -10,7 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  * Class Destination
  * @package SonnyBlaine\Integrator\Destination
  * @ORM\Entity()
- * @ORM\Table(name="final_destination")
+ * @ORM\Table(name="final_destination", indexes={
+ *     @ORM\Index(name="identifier_idx", columns={"identifier"})
+ * })
  */
 class Destination
 {

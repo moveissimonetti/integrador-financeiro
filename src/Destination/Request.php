@@ -1,7 +1,10 @@
 <?php
+
 namespace SonnyBlaine\Integrator\Destination;
 
 use Doctrine\ORM\Mapping as ORM;
+use SonnyBlaine\Integrator\DateInterface;
+use SonnyBlaine\Integrator\DateTrait;
 use SonnyBlaine\Integrator\ResponseInterface;
 use SonnyBlaine\Integrator\ResponseTrait;
 use SonnyBlaine\Integrator\Source\Destination;
@@ -15,11 +18,14 @@ use SonnyBlaine\IntegratorBridge\RequestInterface;
  * @package SonnyBlaine\Integrator\Destination
  * @ORM\Entity(repositoryClass="SonnyBlaine\Integrator\Destination\RequestRepository")
  * @ORM\Table(name="destination_request", indexes={
- *     @ORM\Index(name="success_idx", columns={"success"})
+ *     @ORM\Index(name="success_idx", columns={"success"}),
+ *     @ORM\Index(name="creation_date_idx", columns={"created_in"}),
+ *     @ORM\Index(name="success_date_idx", columns={"success_in"})
  * })
  */
-class Request implements RequestInterface, TryCountInterface, ResponseInterface
+class Request implements RequestInterface, TryCountInterface, ResponseInterface, DateInterface
 {
+    use DateTrait;
     use TryCountTrait;
     use ResponseTrait;
 
@@ -60,12 +66,22 @@ class Request implements RequestInterface, TryCountInterface, ResponseInterface
      * @param Destination $destination
      * @param SourceRequest $sourceRequest
      * @param \stdClass $data
+     * @param null|DateTrait $createdIn
      */
-    public function __construct(Destination $destination, SourceRequest $sourceRequest, \stdClass $data)
-    {
+    public function __construct(
+        Destination $destination,
+        SourceRequest $sourceRequest,
+        \stdClass $data,
+        ?\DateTime $createdIn
+    ) {
+        if (!$createdIn) {
+            $createdIn = new \DateTime();
+        }
+
         $this->destination = $destination;
         $this->sourceRequest = $sourceRequest;
         $this->data = $data;
+        $this->createdIn = $createdIn;
     }
 
     /**

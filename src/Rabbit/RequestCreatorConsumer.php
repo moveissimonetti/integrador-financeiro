@@ -72,6 +72,8 @@ class RequestCreatorConsumer implements ConsumerInterface
                 $this->integratorProducer->publish($destinationRequest->getId());
             }
 
+            $sourceRequest->setSuccessIn(new \DateTime());
+            
             $this->requestService->updateSourceRequestResponse($sourceRequest, true);
 
             echo "Process completed" . PHP_EOL;

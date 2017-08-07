@@ -1,10 +1,13 @@
 <?php
+
 namespace SonnyBlaine\Integrator\Source;
 
 use Doctrine\Common\Collections\Collection as DestinationsCollection;
 use Doctrine\Common\Collections\Collection as DestinationRequestsCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SonnyBlaine\Integrator\Connection;
+use SonnyBlaine\Integrator\DateInterface;
+use SonnyBlaine\Integrator\DateTrait;
 use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
 use SonnyBlaine\Integrator\ResponseInterface;
 use SonnyBlaine\Integrator\ResponseTrait;
@@ -16,11 +19,14 @@ use SonnyBlaine\Integrator\TryCountTrait;
  * @package SonnyBlaine\Integrator\Source
  * @ORM\Entity(repositoryClass="SonnyBlaine\Integrator\Source\RequestRepository")
  * @ORM\Table(name="source_request", indexes={
- *     @ORM\Index(name="success_idx", columns={"success"})
+ *     @ORM\Index(name="success_idx", columns={"success"}),
+ *     @ORM\Index(name="creation_date_idx", columns={"created_in"}),
+ *     @ORM\Index(name="success_date_idx", columns={"success_in"})
  * })
  */
-class Request implements TryCountInterface, ResponseInterface
+class Request implements TryCountInterface, ResponseInterface, DateInterface
 {
+    use DateTrait;
     use TryCountTrait;
     use ResponseTrait;
 
@@ -60,10 +66,15 @@ class Request implements TryCountInterface, ResponseInterface
      * @param Source $source Source of Request
      * @param string $queryParameter Parameter of the Query
      */
-    public function __construct(Source $source, string $queryParameter)
+    public function __construct(Source $source, string $queryParameter, ?DateTime $createdIn)
     {
+        if (!$createdIn) {
+            $createdIn = new \DateTime();
+        }
+
         $this->source = $source;
         $this->queryParameter = $queryParameter;
+        $this->createdIn = $createdIn;
     }
 
     /**

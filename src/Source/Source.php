@@ -10,7 +10,9 @@ use SonnyBlaine\Integrator\Connection;
  * Class Source
  * @package SonnyBlaine\Integrator\Source
  * @ORM\Entity(repositoryClass="SonnyBlaine\Integrator\Source\SourceRepository")
- * @ORM\Table(name="source")
+ * @ORM\Table(name="source", indexes={
+ *     @ORM\Index(name="identifier_idx", columns={"identifier"})
+ * })
  */
 class Source
 {
@@ -30,6 +32,12 @@ class Source
      * @var string
      */
     protected $identifier;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", name="description")
+     */
+    protected $description;
 
     /**
      * Data connection to database
@@ -110,6 +118,14 @@ class Source
     public function getIdentifier(): string
     {
         return $this->identifier;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 
     /**
