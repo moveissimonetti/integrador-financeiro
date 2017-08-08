@@ -1,4 +1,5 @@
 <?php
+
 namespace SonnyBlaine\Integrator\Services;
 
 use SonnyBlaine\Integrator\Destination\RequestCreator as DestinationRequestCreator;
@@ -110,6 +111,39 @@ class RequestService
     }
 
     /**
+     * @param Source $source
+     * @param array $filters
+     * @return array
+     * @throws \Exception
+     */
+    public function findSourceRequestsBySource(Source $source, array $filters = [])
+    {
+        #validate target
+        $availableTargets = [
+            SourceRequestRepository::SEARCH_USING_SOURCE_REQUEST,
+            SourceRequestRepository::SEARCH_USING_DESTINATION_REQUEST
+        ];
+
+        if (empty($filters['target'])) {
+            $filters['target'] = SourceRequestRepository::SEARCH_USING_SOURCE_REQUEST;
+        }
+
+        if (!in_array($filters['target'], $availableTargets)) {
+            $msg = sprintf(
+                "Invalid Target: %s. Availables: %s", $filters['target'], implode(", ", $availableTargets)
+            );
+
+            throw new \Exception($msg, 400);
+        }
+
+        if (SourceRequestRepository::SEARCH_USING_DESTINATION_REQUEST == $filters['target']) {
+            return $this->sourceRequestRepository->findBySourceUsingDestinationRequest($source, $filters);
+        }
+
+        return $this->sourceRequestRepository->findBySource($source, $filters);
+    }
+
+    /**
      * @param TryCountInterface $request
      * @param int $tryCount
      */
@@ -126,8 +160,12 @@ class RequestService
      * @param string|null $msg
      * @param string|null $errorTracer
      */
-    public function updateSourceRequestResponse(ResponseInterface $request, bool $success, ?string $msg = null, ?string $errorTracer = null)
-    {
+    public function updateSourceRequestResponse(
+        ResponseInterface $request,
+        bool $success,
+        ?string $msg = null,
+        ?string $errorTracer = null
+    ) {
         $request->setSuccess($success);
         $request->setMsg($msg);
         $request->setErrorTracer($errorTracer);

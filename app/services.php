@@ -10,26 +10,31 @@ use SonnyBlaine\Integrator\Services\IntegratorService;
 use SonnyBlaine\Integrator\Search;
 use SonnyBlaine\Integrator\Services\SearchService;
 
-/* Repositories */
-$app['source.request.repository'] = function () use ($app) {
-    return $app['orm.em']->getRepository(Source\Request::class);
-};
-
+#destination services and repositories
 $app['destination.request.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(Destination\Request::class);
 };
 
+$app['destination.request.creator'] = function () use ($app) {
+    return new Destination\RequestCreator($app['connection_manager.service']);
+};
+
+#source services and repositories
 $app['source.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(Source\Source::class);
 };
 
-/* Services */
-$app['connection_manager.service'] = function () use ($app) {
-    return new ConnectionManager();
+$app['source.service'] = function () use ($app) {
+    return new SourceService($app['source.repository']);
 };
 
-$app['destination.request.creator'] = function () use ($app) {
-    return new Destination\RequestCreator($app['connection_manager.service']);
+$app['source.request.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(Source\Request::class);
+};
+
+#another services
+$app['connection_manager.service'] = function () use ($app) {
+    return new ConnectionManager();
 };
 
 $app['request.service'] = function () use ($app) {
@@ -40,9 +45,6 @@ $app['request.service'] = function () use ($app) {
     );
 };
 
-$app['source.service'] = function () use ($app) {
-    return new SourceService($app['source.repository']);
-};
 
 $app['integrator.service'] = function () use ($app) {
     return new IntegratorService(

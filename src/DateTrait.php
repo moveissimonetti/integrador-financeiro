@@ -29,7 +29,7 @@ trait DateTrait
     /**
      * @return \DateTime|null
      */
-    public function getSuccessIn()
+    public function getSuccessIn():?\DateTime
     {
         return $this->successIn;
     }
