@@ -9,6 +9,8 @@ use SonnyBlaine\Integrator\Connection;
 use SonnyBlaine\Integrator\DateInterface;
 use SonnyBlaine\Integrator\DateTrait;
 use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
+use SonnyBlaine\Integrator\RequestStatusInterface;
+use SonnyBlaine\Integrator\RequestStatusTrait;
 use SonnyBlaine\Integrator\ResponseInterface;
 use SonnyBlaine\Integrator\ResponseTrait;
 use SonnyBlaine\Integrator\TryCountInterface;
@@ -24,11 +26,12 @@ use SonnyBlaine\Integrator\TryCountTrait;
  *     @ORM\Index(name="success_date_idx", columns={"success_in"})
  * })
  */
-class Request implements TryCountInterface, ResponseInterface, DateInterface
+class Request implements TryCountInterface, ResponseInterface, DateInterface, RequestStatusInterface
 {
     use DateTrait;
     use TryCountTrait;
     use ResponseTrait;
+    use RequestStatusTrait;
 
     /**
      * Source ID

@@ -1,6 +1,9 @@
 <?php
+
 namespace SonnyBlaine\Integrator\Services;
 
+use SonnyBlaine\Integrator\RequestStatusInterface;
+use SonnyBlaine\Integrator\Source\Request as SourceRequest;
 use SonnyBlaine\Integrator\Source\Source;
 use SonnyBlaine\Integrator\Source\SourceRepository;
 
@@ -29,8 +32,17 @@ class SourceService
      * @param string $identifier
      * @return Source
      */
-    public function findByIdentifier(string $identifier): Source
+    public function findByIdentifier(string $identifier, array $filters = []): ?Source
     {
         return $this->sourceRepository->findOneBy(['identifier' => $identifier]);
+    }
+
+    /**
+     * @param array $filters
+     * @return array
+     */
+    public function search(array $filters)
+    {
+        return $this->sourceRepository->search($filters);
     }
 }

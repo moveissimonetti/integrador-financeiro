@@ -5,6 +5,8 @@ namespace SonnyBlaine\Integrator\Destination;
 use Doctrine\ORM\Mapping as ORM;
 use SonnyBlaine\Integrator\DateInterface;
 use SonnyBlaine\Integrator\DateTrait;
+use SonnyBlaine\Integrator\RequestStatusInterface;
+use SonnyBlaine\Integrator\RequestStatusTrait;
 use SonnyBlaine\Integrator\ResponseInterface;
 use SonnyBlaine\Integrator\ResponseTrait;
 use SonnyBlaine\Integrator\Source\Destination;
@@ -23,11 +25,12 @@ use SonnyBlaine\IntegratorBridge\RequestInterface;
  *     @ORM\Index(name="success_date_idx", columns={"success_in"})
  * })
  */
-class Request implements RequestInterface, TryCountInterface, ResponseInterface, DateInterface
+class Request implements RequestInterface, TryCountInterface, ResponseInterface, DateInterface, RequestStatusInterface
 {
     use DateTrait;
     use TryCountTrait;
     use ResponseTrait;
+    use RequestStatusTrait;
 
     /**
      * Destination Request ID

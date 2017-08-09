@@ -46,7 +46,7 @@ trait ResponseTrait
     /**
      * @return string
      */
-    public function getMsg(): string
+    public function getMsg(): ?string
     {
         return $this->msg;
     }

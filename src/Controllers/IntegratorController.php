@@ -2,7 +2,6 @@
 
 namespace SonnyBlaine\Integrator\Controllers;
 
-use Simonetti\Rovereti\SearchResponse;
 use SonnyBlaine\Integrator\Services\IntegratorService;
 use SonnyBlaine\Integrator\Services\SearchService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -60,10 +59,14 @@ class IntegratorController
      * @param Request $request
      * @return JsonResponse
      */
-    public function searchAction(Request $request)
+    public function searchAction(Request $request, $sourceIdentifier)
     {
         try {
-            $params = [$request->get("sourceIdentifier"), (object)$request->request->all()];
+            $params = [
+                $sourceIdentifier,
+                (object)$_GET
+            ];
+
             $search = $this->searchService
                 ->search(...$params);
 
