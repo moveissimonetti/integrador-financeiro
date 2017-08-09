@@ -10,3 +10,7 @@ $app['integrator.controller'] = function () use ($app) {
 $app['source.controller'] = function () use ($app) {
     return new Controllers\SourceController($app['source.service'], $app['request.service']);
 };
+
+$app['supervisor.controller'] = function () use ($app) {
+    return new Controllers\SupervisorController($app['supervisor']);
+};
