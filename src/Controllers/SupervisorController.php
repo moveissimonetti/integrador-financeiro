@@ -47,9 +47,11 @@ class SupervisorController
             return array_filter($process, $filterProcessKeys, ARRAY_FILTER_USE_KEY);
         };
 
-        $processes = array_map(
-            $mapProcesses, array_filter(
-                $this->supervisor->getAllProcessInfo(), $filterProcessesByGroup
+        $processes = array_values(
+            array_map(
+                $mapProcesses, array_filter(
+                    $this->supervisor->getAllProcessInfo(), $filterProcessesByGroup
+                )
             )
         );
 

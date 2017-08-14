@@ -13,7 +13,7 @@ trait DateTrait
     protected $createdIn;
 
     /**
-     * @ORM\Column(type="datetime", name="success_in")
+     * @ORM\Column(type="datetime", name="success_in", nullable=true)
      * @var \DateTime
      */
     protected $successIn;
