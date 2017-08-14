@@ -118,29 +118,9 @@ class RequestService
      */
     public function findSourceRequestsBySource(Source $source, array $filters = [])
     {
-        #validate target
-        $availableTargets = [
-            SourceRequestRepository::SEARCH_USING_SOURCE_REQUEST,
-            SourceRequestRepository::SEARCH_USING_DESTINATION_REQUEST
-        ];
-
-        if (empty($filters['target'])) {
-            $filters['target'] = SourceRequestRepository::SEARCH_USING_SOURCE_REQUEST;
-        }
-
-        if (!in_array($filters['target'], $availableTargets)) {
-            $msg = sprintf(
-                "Invalid Target: %s. Availables: %s", $filters['target'], implode(", ", $availableTargets)
-            );
-
-            throw new \Exception($msg, 400);
-        }
-
-        if (SourceRequestRepository::SEARCH_USING_DESTINATION_REQUEST == $filters['target']) {
-            return $this->sourceRequestRepository->findBySourceUsingDestinationRequest($source, $filters);
-        }
-
-        return $this->sourceRequestRepository->findBySource($source, $filters);
+        return $this->sourceRequestRepository->findBySource(
+            $source, $filters, $filters['target']??SourceRequestRepository::SEARCH_USING_SOURCE_REQUEST
+        );
     }
 
     /**
