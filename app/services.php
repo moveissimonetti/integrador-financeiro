@@ -83,3 +83,31 @@ $app['search.source.repository'] = function () use ($app) {
 $app['search.service'] = function () use ($app) {
     return new SearchService($app['search.source.repository'], $app['bridge.factory']);
 };
+
+# supervisor services
+$app['http_message_factory'] = function () {
+    return new \SonnyBlaine\Integrator\Services\MessageFactory();
+};
+
+$app['supervisor.http_client'] = function () {
+    return new \SonnyBlaine\Integrator\Services\HttpClient(['auth' => [SUPERVISOR_USER, SUPERVISOR_PASSWORD]]);
+};
+
+$app['supervisor.xml_rpc.http_adapter_transport'] = function () use ($app) {
+    return new \fXmlRpc\Transport\HttpAdapterTransport($app['http_message_factory'], $app['supervisor.http_client']);
+};
+
+$app['supervisor.xml_rpc.client'] = function () use ($app) {
+    return new \fXmlRpc\Client(
+        'http://' . SUPERVISOR_HOST . ':' . SUPERVISOR_PORT . '/RPC2',
+        $app['supervisor.xml_rpc.http_adapter_transport']
+    );
+};
+
+$app['supervisor.xml_rpc.connector'] = function () use ($app) {
+    return new \Supervisor\Connector\XmlRpc($app['supervisor.xml_rpc.client']);
+};
+
+$app['supervisor'] = function () use ($app) {
+    return new \Supervisor\Supervisor($app['supervisor.xml_rpc.connector']);
+};
