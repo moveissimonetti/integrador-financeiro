@@ -45,4 +45,8 @@ class SourceService
     {
         return $this->sourceRepository->search($filters);
     }
+
+    public function findToView(array $filters = []) {
+        return $this->sourceRepository->findToView($filters);
+    }
 }

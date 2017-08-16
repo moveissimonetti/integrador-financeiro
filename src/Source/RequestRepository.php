@@ -5,7 +5,6 @@ namespace SonnyBlaine\Integrator\Source;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use SonnyBlaine\Integrator\Rabbit\RequestCreatorConsumer;
 
 /**
  * Class RequestRepository
@@ -27,14 +26,34 @@ class RequestRepository extends EntityRepository
     }
 
     /**
-     * @param QueryBuilder $queryBuilder
-     * @param string $entityAlias
+     * @param Source $source
      * @param array $filters
+     * @param string $target
      * @return array
      * @throws \Exception
      */
-    private function applySearchFiltersAndExecute(QueryBuilder $queryBuilder, string $entityAlias, array $filters)
+    public function findBySource(Source $source, array $filters = [], $target = self::SEARCH_USING_SOURCE_REQUEST)
     {
+        $targets = [
+            self::SEARCH_USING_SOURCE_REQUEST => 'sr',
+            self::SEARCH_USING_DESTINATION_REQUEST => 'dr'
+        ];
+
+        if (!in_array($target, array_keys($targets))) {
+            throw new \Exception("Invalid target: {$target}");
+        }
+
+        $queryBuilder = $this
+            ->createQueryBuilder('sr')
+            ->leftJoin(
+                \SonnyBlaine\Integrator\Destination\Request::class, 'dr', Join::WITH, "dr.sourceRequest = sr"
+            )
+            ->where("sr.source = :source")
+            ->setParameter(":source", $source)
+            ->andWhere('(sr.success = false OR dr.success = false)');
+
+        $entityAlias = $targets[$target];
+
         #validate interval
         if (empty($params['createdSince']) xor empty($params['createdUntil'])) {
             throw new \Exception("Date interval must be entered with two params: createdSince and createdUntil");
@@ -58,61 +77,6 @@ class RequestRepository extends EntityRepository
                 ->setParameter(":msg", "%{$filters['msg']}%");
         }
 
-        if (empty($filters['status'])) {
-            return $queryBuilder->getQuery()->getResult();
-        }
-
-        switch ($filters['status']) {
-            case 'pending':
-                $queryBuilder
-                    ->andWhere("($entityAlias.success = false AND $entityAlias.tryCount < :try_count)")
-                    ->setParameter(":try_count", RequestCreatorConsumer::MAX_TRY_COUNT);
-                break;
-
-            case 'error':
-                $queryBuilder
-                    ->andWhere("($entityAlias.success = false AND $entityAlias.tryCount = :try_count)")
-                    ->setParameter(":try_count", RequestCreatorConsumer::MAX_TRY_COUNT);
-                break;
-
-            case 'success':
-                $queryBuilder->andWhere("$entityAlias.success = true");
-                break;
-        }
-
         return $queryBuilder->getQuery()->getResult();
-    }
-
-    /**
-     * @param Source $source
-     * @param array $params
-     * @return array
-     */
-    public function findBySource(Source $source, array $params = [])
-    {
-        $queryBuilder = $this
-            ->createQueryBuilder('sr')
-            ->where('sr.source = :source')
-            ->setParameter(":source", $source);
-
-        return $this->applySearchFiltersAndExecute($queryBuilder, 'sr', $params);
-    }
-
-    /**
-     * @param Source $source
-     * @param array $params
-     * @return array
-     */
-    public function findBySourceUsingDestinationRequest(Source $source, array $params = [])
-    {
-        $queryBuilder = $this
-            ->createQueryBuilder('sr')
-            ->leftJoin(
-                \SonnyBlaine\Integrator\Destination\Request::class, 'dr', Join::WITH, "dr.sourceRequest = sr"
-            )
-            ->where('sr.source = :source')
-            ->setParameter(":source", $source);
-
-        return $this->applySearchFiltersAndExecute($queryBuilder, 'dr', $params);
     }
 }

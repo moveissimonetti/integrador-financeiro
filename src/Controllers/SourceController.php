@@ -2,10 +2,8 @@
 
 namespace SonnyBlaine\Integrator\Controllers;
 
-use SonnyBlaine\Integrator\RequestStatusInterface;
 use SonnyBlaine\Integrator\Services\RequestService;
 use SonnyBlaine\Integrator\Services\SourceService;
-use SonnyBlaine\Integrator\Source\Source;
 use SonnyBlaine\Integrator\Source\Request as SourceRequest;
 use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,34 +37,17 @@ class SourceController
      */
     public function searchAction()
     {
-        $data = array_map(function (Source $source) {
-            /**
-             * @var SourceRequest[] $requests
-             */
-            $requests = $this->requestService->findSourceRequestsBySource($source);
-
-            $reduce = function ($last, RequestStatusInterface $request) use (&$reduce) {
-                $last[$request->getStatus()] += 1;
-
-                if (!($request instanceof SourceRequest)) {
-                    return $last;
-                }
-
-                return array_reduce($request->getDestinationRequests()->toArray(), $reduce, $last);
-            };
-
-            $requestStatus = array_reduce($requests, $reduce, [
-                RequestStatusInterface::STATUS_SUCCESS => 0,
-                RequestStatusInterface::STATUS_ERROR => 0,
-                RequestStatusInterface::STATUS_PENDING => 0
-            ]);
-
+        $data = array_map(function (array $data) {
             return [
-                'identifier' => $source->getIdentifier(),
-                'description' => utf8_encode($source->getDescription()),
-                'requests' => $requestStatus
+                "identifier" => utf8_encode($data['identifier']),
+                "description" => utf8_encode($data['description']),
+                "requests" => [
+                    "success" => intval($data['request_success']),
+                    "error" => intval($data['request_error']),
+                    "pending" => intval($data['request_pending'])
+                ]
             ];
-        }, $this->sourceService->search($_REQUEST));
+        }, $this->sourceService->findToView($_REQUEST));
 
         return (new JsonResponse($data))
             ->setEncodingOptions(JSON_PRETTY_PRINT);
@@ -85,7 +66,7 @@ class SourceController
                 throw new \Exception('Source Not Found', 404);
             }
 
-            $mapRequest = function ($request, callable $successCallback) {
+            $mapRequest = function ($request, callable $callback) {
                 $return = [];
 
                 if (method_exists($request, 'getId')) {
@@ -107,17 +88,20 @@ class SourceController
                     $return['status'] = $request->getStatus();
                 }
                 if (method_exists($request, 'getMsg')) {
-                    $return['msg'] = $request->getMsg();
+                    $return['msg'] = utf8_encode($request->getMsg());
                 }
-                if (method_exists($request, 'isSuccess') && $request->isSuccess()) {
-                    $return = array_merge($return, $successCallback($request));
-                }
+
+                $return = array_merge($return, $callback($request));
 
                 return $return;
             };
 
             $mapDestinationRequest = function (DestinationRequest $request) use ($mapRequest) {
                 return $mapRequest($request, function (DestinationRequest $request) {
+                    if (!$request->isSuccess()) {
+                        return ['successIn' => null];
+                    }
+
                     return [
                         'successIn' => $request->getSuccessIn()
                     ];
@@ -126,6 +110,10 @@ class SourceController
 
             $mapSourceRequest = function (SourceRequest $request) use ($mapRequest, $mapDestinationRequest) {
                 return $mapRequest($request, function (SourceRequest $request) use ($mapDestinationRequest) {
+                    if (!$request->isSuccess()) {
+                        return ['successIn' => null, 'destinationRequests' => null];
+                    }
+
                     return [
                         'successIn' => $request->getSuccessIn(),
                         'destinationRequests' => array_map(
@@ -140,7 +128,35 @@ class SourceController
                 $mapSourceRequest, $sourceRequests
             );
 
-            return (new JsonResponse($data))
+            $srError = $srPending = $drError = $drPending = [];
+
+            foreach ($data as $request) {
+
+                switch ($request['status']) {
+                    case SourceRequest::STATUS_ERROR:
+                        $srError[] = $request;
+                        continue;
+                    case SourceRequest::STATUS_PENDING:
+                        $srPending[] = $request;
+                        continue;
+                    case SourceRequest::STATUS_SUCCESS:
+                        $pending = false;
+
+                        foreach ($request['destinationRequests'] as $destRequest) {
+                            $pending = DestinationRequest::STATUS_PENDING == $destRequest['status'];
+                            if (DestinationRequest::STATUS_ERROR == $destRequest['status']) {
+                                $drError[] = $request;
+                                break;
+                            }
+                        }
+
+                        if ($pending) {
+                            $drPending[] = $request;
+                        }
+                }
+            }
+
+            return (new JsonResponse(array_merge($srError, $drError, $srPending, $drPending)))
                 ->setEncodingOptions(JSON_PRETTY_PRINT);
         } catch (\Exception $e) {
             $code = $e->getCode() ?: 500;
