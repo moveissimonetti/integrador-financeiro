@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Class Search
  * @package SonnyBlaine\Integrator\Search
  * @ORM\Entity()
- * @ORM\Table(name="search_source", schema="test")
+ * @ORM\Table(name="search_source")
  */
 class SearchSource
 {
