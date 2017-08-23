@@ -75,7 +75,7 @@ class Request implements RequestInterface, TryCountInterface, ResponseInterface,
         Destination $destination,
         SourceRequest $sourceRequest,
         \stdClass $data,
-        ?\DateTime $createdIn
+        \DateTime $createdIn = null
     ) {
         if (!$createdIn) {
             $createdIn = new \DateTime();
