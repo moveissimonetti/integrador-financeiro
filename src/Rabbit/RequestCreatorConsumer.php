@@ -69,6 +69,9 @@ class RequestCreatorConsumer implements ConsumerInterface
 
             foreach ($sourceRequest->getDestinationRequests() as $destinationRequest) {
                 echo "Publishing to integrate at {$destinationRequest->getDestinationIdentifier()}..." . PHP_EOL;
+
+                $this->requestService->updateTryCount($destinationRequest, 0);
+
                 $this->integratorProducer->publish($destinationRequest->getId());
             }
 

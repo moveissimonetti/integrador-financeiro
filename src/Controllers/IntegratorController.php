@@ -26,6 +26,7 @@ class IntegratorController
     /**
      * IntegratorController constructor.
      * @param IntegratorService $integratorService
+     * @param SearchService|null $searchService
      */
     public function __construct(IntegratorService $integratorService, SearchService $searchService = null)
     {
@@ -82,6 +83,26 @@ class IntegratorController
                 'error' => true,
                 'data' => $e->getMessage()
             ]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param $sourceRequestId
+     * @return JsonResponse
+     */
+    public function retryIntegrateAction(Request $request, $sourceRequestId)
+    {
+        try {
+            $this->integratorService->retryIntegrate($sourceRequestId);
+
+            return new JsonResponse([
+                'msg' => 'Ok! The request will be resent.',
+            ], 200);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 }

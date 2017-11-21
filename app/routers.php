@@ -9,6 +9,7 @@ $app->mount('/api', function ($api) {
     $api->mount('/source', function ($source) {
         $source->get('/search', 'source.controller:searchAction');
         $source->get('/{sourceIdentifier}/requests', 'source.controller:fetchRequestsAction');
+        $source->put('/request/{sourceRequestId}/retry-integrate', 'integrator.controller:retryIntegrateAction');
     });
 
     $api->mount('/supervisor', function ($supervisor) {
