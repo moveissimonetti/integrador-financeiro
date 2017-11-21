@@ -69,7 +69,7 @@ class Request implements TryCountInterface, ResponseInterface, DateInterface, Re
      * @param Source $source Source of Request
      * @param string $queryParameter Parameter of the Query
      */
-    public function __construct(Source $source, string $queryParameter, ?DateTime $createdIn)
+    public function __construct(Source $source, string $queryParameter, DateTime $createdIn = null)
     {
         if (!$createdIn) {
             $createdIn = new \DateTime();

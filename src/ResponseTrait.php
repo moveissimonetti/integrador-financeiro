@@ -10,10 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 trait ResponseTrait
 {
     /**
-     * @ORM\Column(name="success", type="boolean", nullable=true)
+     * @ORM\Column(name="success", type="boolean", options={"default" = false})
      * @var bool
      */
-    protected $success;
+    protected $success = false;
 
     /**
      * @ORM\Column(name="msg", type="text", nullable=true)
