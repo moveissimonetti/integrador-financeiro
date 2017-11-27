@@ -71,4 +71,21 @@ class IntegratorService
 
         return $sourceRequest;
     }
+
+    /**
+     * @param string $sourceRequestId
+     * @throws \Exception
+     */
+    public function retryIntegrate(string $sourceRequestId)
+    {
+        $sourceRequest = $this->requestService->findSourceRequest($sourceRequestId);
+
+        if (is_null($sourceRequest)) {
+            throw new \Exception("Source Request not found.");
+        }
+
+        $this->requestService->updateTryCount($sourceRequest, 0);
+
+        $this->requestCreatorProducer->publish($sourceRequestId);
+    }
 }
