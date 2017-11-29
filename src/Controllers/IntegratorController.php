@@ -43,6 +43,13 @@ class IntegratorController
     public function integrateAction(Request $request, string $sourceIdentifier, string $queryParameter)
     {
         try {
+            if ($request->headers->get('X-APP-ENV') != APP_ENV) {
+                return new JsonResponse([
+                    'requestId' => null,
+                    'error' => 'Not allowed. Please, make sure you are using the correct environment.',
+                ], JsonResponse::HTTP_NOT_ACCEPTABLE);
+            }
+
             $sourceRequest = $this->integratorService->integrate($sourceIdentifier, $queryParameter);
 
             return new JsonResponse([
