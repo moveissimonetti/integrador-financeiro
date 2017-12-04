@@ -3,8 +3,11 @@
 namespace SonnyBlaine\Integrator\Destination;
 
 use Doctrine\ORM\Mapping as ORM;
+use SonnyBlaine\Integrator\AbstractRequest;
 use SonnyBlaine\Integrator\DateInterface;
 use SonnyBlaine\Integrator\DateTrait;
+use SonnyBlaine\Integrator\RequestCancelledInterface;
+use SonnyBlaine\Integrator\RequestCancelledTrait;
 use SonnyBlaine\Integrator\RequestStatusInterface;
 use SonnyBlaine\Integrator\RequestStatusTrait;
 use SonnyBlaine\Integrator\ResponseInterface;
@@ -25,22 +28,8 @@ use SonnyBlaine\IntegratorBridge\RequestInterface;
  *     @ORM\Index(name="success_date_idx", columns={"success_in"})
  * })
  */
-class Request implements RequestInterface, TryCountInterface, ResponseInterface, DateInterface, RequestStatusInterface
+class Request extends AbstractRequest implements RequestInterface
 {
-    use DateTrait;
-    use TryCountTrait;
-    use ResponseTrait;
-    use RequestStatusTrait;
-
-    /**
-     * Destination Request ID
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer", name="id")
-     * @var int
-     */
-    protected $id;
-
     /**
      * Destination
      * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Source\Destination")
@@ -69,30 +58,21 @@ class Request implements RequestInterface, TryCountInterface, ResponseInterface,
      * @param Destination $destination
      * @param SourceRequest $sourceRequest
      * @param \stdClass $data
-     * @param null|DateTrait $createdIn
+     * @param null|\DateTime $createdIn
      */
     public function __construct(
         Destination $destination,
         SourceRequest $sourceRequest,
         \stdClass $data,
         \DateTime $createdIn = null
-    ) {
-        if (!$createdIn) {
-            $createdIn = new \DateTime();
-        }
+    )
+    {
+        parent::__construct();
 
         $this->destination = $destination;
         $this->sourceRequest = $sourceRequest;
         $this->data = $data;
         $this->createdIn = $createdIn;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     /**
