@@ -2,6 +2,7 @@
 
 namespace SonnyBlaine\Integrator\Controllers;
 
+use SonnyBlaine\Integrator\AbstractRequest;
 use SonnyBlaine\Integrator\Services\RequestService;
 use SonnyBlaine\Integrator\Services\SourceService;
 use SonnyBlaine\Integrator\Source\Request as SourceRequest;
@@ -66,7 +67,11 @@ class SourceController
                 throw new \Exception('Source Not Found', 404);
             }
 
-            $mapRequest = function ($request, callable $callback) {
+            $mapRequest = function (AbstractRequest $request, callable $callback) {
+                if ($request->isCancelled()) {
+                    return null;
+                }
+
                 $return = [];
 
                 if (method_exists($request, 'getId')) {

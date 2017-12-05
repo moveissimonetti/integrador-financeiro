@@ -5,12 +5,15 @@ namespace SonnyBlaine\Integrator\Source;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use SonnyBlaine\Integrator\AbstractRequest;
+use SonnyBlaine\Integrator\RequestRepositoryInterface;
+use SonnyBlaine\IntegratorBridge\RequestInterface;
 
 /**
  * Class RequestRepository
  * @package SonnyBlaine\Integrator\Source
  */
-class RequestRepository extends EntityRepository
+class RequestRepository extends EntityRepository implements RequestRepositoryInterface
 {
     const SEARCH_USING_SOURCE_REQUEST = 'source_request';
     const SEARCH_USING_DESTINATION_REQUEST = 'destination_request';
@@ -19,7 +22,7 @@ class RequestRepository extends EntityRepository
      * @param Request $request
      * @return void
      */
-    public function save(Request $request): void
+    public function save(AbstractRequest $request): void
     {
         $this->_em->persist($request);
         $this->_em->flush();

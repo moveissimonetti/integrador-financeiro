@@ -5,10 +5,13 @@ namespace SonnyBlaine\Integrator\Source;
 use Doctrine\Common\Collections\Collection as DestinationsCollection;
 use Doctrine\Common\Collections\Collection as DestinationRequestsCollection;
 use Doctrine\ORM\Mapping as ORM;
+use SonnyBlaine\Integrator\AbstractRequest;
 use SonnyBlaine\Integrator\Connection;
 use SonnyBlaine\Integrator\DateInterface;
 use SonnyBlaine\Integrator\DateTrait;
 use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
+use SonnyBlaine\Integrator\RequestCancelledInterface;
+use SonnyBlaine\Integrator\RequestCancelledTrait;
 use SonnyBlaine\Integrator\RequestStatusInterface;
 use SonnyBlaine\Integrator\RequestStatusTrait;
 use SonnyBlaine\Integrator\ResponseInterface;
@@ -26,22 +29,8 @@ use SonnyBlaine\Integrator\TryCountTrait;
  *     @ORM\Index(name="success_date_idx", columns={"success_in"})
  * })
  */
-class Request implements TryCountInterface, ResponseInterface, DateInterface, RequestStatusInterface
+class Request extends AbstractRequest
 {
-    use DateTrait;
-    use TryCountTrait;
-    use ResponseTrait;
-    use RequestStatusTrait;
-
-    /**
-     * Source ID
-     * @ORM\Id()
-     * @ORM\Column(type="integer", name="id")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @var int
-     */
-    protected $id;
-
     /**
      * Source of Request
      * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Source\Source")
@@ -69,23 +58,13 @@ class Request implements TryCountInterface, ResponseInterface, DateInterface, Re
      * @param Source $source Source of Request
      * @param string $queryParameter Parameter of the Query
      */
-    public function __construct(Source $source, string $queryParameter, DateTime $createdIn = null)
+    public function __construct(Source $source, string $queryParameter, \DateTime $createdIn = null)
     {
-        if (!$createdIn) {
-            $createdIn = new \DateTime();
-        }
+        parent::__construct();
 
         $this->source = $source;
         $this->queryParameter = $queryParameter;
         $this->createdIn = $createdIn;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     /**
@@ -158,5 +137,26 @@ class Request implements TryCountInterface, ResponseInterface, DateInterface, Re
     public function isAllowedMultipleResultset()
     {
         return $this->source->isAllowedMultipleResultset();
+    }
+
+    /**
+     * @param bool $cancelled
+     */
+    public function setCancelled(bool $cancelled)
+    {
+        parent::setCancelled($cancelled);
+
+        $destinationRequests = $this->destinationRequests->toArray();
+
+        if (empty($destinationRequests)) {
+            return;
+        }
+
+        /**
+         * @var \SonnyBlaine\Integrator\Destination\Request $destinationRequest
+         */
+        foreach ($destinationRequests as $destinationRequest) {
+            $destinationRequest->setCancelled(true);
+        }
     }
 }

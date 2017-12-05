@@ -1,4 +1,5 @@
 <?php
+
 namespace SonnyBlaine\Integrator\Services;
 
 use Doctrine\DBAL\Connection;
@@ -43,7 +44,8 @@ class IntegratorService
         SourceService $sourceService,
         RequestService $requestService,
         RequestCreatorProducer $rabbitProducer
-    ) {
+    )
+    {
         $this->connection = $connection;
         $this->sourceService = $sourceService;
         $this->requestService = $requestService;
