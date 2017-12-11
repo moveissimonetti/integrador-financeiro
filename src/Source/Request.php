@@ -7,17 +7,7 @@ use Doctrine\Common\Collections\Collection as DestinationRequestsCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SonnyBlaine\Integrator\AbstractRequest;
 use SonnyBlaine\Integrator\Connection;
-use SonnyBlaine\Integrator\DateInterface;
-use SonnyBlaine\Integrator\DateTrait;
 use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
-use SonnyBlaine\Integrator\RequestCancelledInterface;
-use SonnyBlaine\Integrator\RequestCancelledTrait;
-use SonnyBlaine\Integrator\RequestStatusInterface;
-use SonnyBlaine\Integrator\RequestStatusTrait;
-use SonnyBlaine\Integrator\ResponseInterface;
-use SonnyBlaine\Integrator\ResponseTrait;
-use SonnyBlaine\Integrator\TryCountInterface;
-use SonnyBlaine\Integrator\TryCountTrait;
 
 /**
  * Class Request
