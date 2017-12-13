@@ -60,19 +60,13 @@ class Request extends AbstractRequest implements RequestInterface
      * @param \stdClass $data
      * @param null|\DateTime $createdIn
      */
-    public function __construct(
-        Destination $destination,
-        SourceRequest $sourceRequest,
-        \stdClass $data,
-        \DateTime $createdIn = null
-    )
+    public function __construct(Destination $destination, SourceRequest $sourceRequest, \stdClass $data)
     {
         parent::__construct();
 
         $this->destination = $destination;
         $this->sourceRequest = $sourceRequest;
         $this->data = $data;
-        $this->createdIn = $createdIn;
     }
 
     /**
