@@ -72,34 +72,17 @@ abstract class AbstractRequest
 
     /**
      * AbstractRequest constructor.
-     * @param \DateTime $createdIn
-     * @param \DateTime|null $successIn
-     * @param int $tryCount
-     * @param bool $success
-     * @param null $msg
-     * @param string $errorTracer
-     * @param bool $cancelled
-     * @param \DateTime|null $cancelledIn
      */
-    public function __construct(
-        \DateTime $createdIn = null,
-        $tryCount = 0,
-        $success = 0,
-        $successIn = null,
-        $msg = null,
-        $errorTracer = null,
-        $cancelled = false,
-        $cancelledIn = null
-    )
+    public function __construct()
     {
-        $this->createdIn = $createdIn ?: new \DateTime();
-        $this->successIn = $successIn;
-        $this->tryCount = $tryCount;
-        $this->success = $success;
-        $this->msg = $msg;
-        $this->errorTracer = $errorTracer;
-        $this->cancelled = $cancelled;
-        $this->cancelledIn = $cancelledIn;
+        $this->createdIn = new \DateTime();
+        $this->successIn = null;
+        $this->tryCount = 0;
+        $this->success = false;
+        $this->msg = null;
+        $this->errorTracer = null;
+        $this->cancelled = false;
+        $this->cancelledIn = null;
     }
 
     /**

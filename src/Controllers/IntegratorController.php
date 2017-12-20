@@ -126,24 +126,6 @@ class IntegratorController
         }
     }
 
-
-    /**
-     * @param string $requestTypeName
-     * @return RequestRepositoryInterface
-     */
-    public function getRequestRepositoryByRequestTypeName(string $requestTypeName)
-    {
-        if (!in_array($requestTypeName, [self::SOURCE_REQUEST_NAME, self::DESTINATION_REQUEST_NAME])) {
-            throw new BadRequestHttpException("Invalid request type!");
-        }
-
-        if (self::SOURCE_REQUEST_NAME == $requestTypeName) {
-            return $this->sourceRequestRepository;
-        }
-
-        return $this->destinationRequestService;
-    }
-
     /**
      * @param Request $request
      * @param $sourceRequestId

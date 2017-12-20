@@ -48,13 +48,12 @@ class Request extends AbstractRequest
      * @param Source $source Source of Request
      * @param string $queryParameter Parameter of the Query
      */
-    public function __construct(Source $source, string $queryParameter, \DateTime $createdIn = null)
+    public function __construct(Source $source, string $queryParameter)
     {
         parent::__construct();
 
         $this->source = $source;
         $this->queryParameter = $queryParameter;
-        $this->createdIn = $createdIn;
     }
 
     /**
