@@ -4,18 +4,8 @@ namespace SonnyBlaine\Integrator\Destination;
 
 use Doctrine\ORM\Mapping as ORM;
 use SonnyBlaine\Integrator\AbstractRequest;
-use SonnyBlaine\Integrator\DateInterface;
-use SonnyBlaine\Integrator\DateTrait;
-use SonnyBlaine\Integrator\RequestCancelledInterface;
-use SonnyBlaine\Integrator\RequestCancelledTrait;
-use SonnyBlaine\Integrator\RequestStatusInterface;
-use SonnyBlaine\Integrator\RequestStatusTrait;
-use SonnyBlaine\Integrator\ResponseInterface;
-use SonnyBlaine\Integrator\ResponseTrait;
 use SonnyBlaine\Integrator\Source\Destination;
 use SonnyBlaine\Integrator\Source\Request as SourceRequest;
-use SonnyBlaine\Integrator\TryCountInterface;
-use SonnyBlaine\Integrator\TryCountTrait;
 use SonnyBlaine\IntegratorBridge\RequestInterface;
 
 /**

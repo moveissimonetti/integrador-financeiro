@@ -119,7 +119,7 @@ class IntegratorController
             return new JsonResponse([
                 'msg' => 'Ok! The request will be resent.',
             ], 200);
-        } catch (\Exception $e) {
+        } catch (\Error $e) {
             return new JsonResponse([
                 'error' => $e->getMessage(),
             ], 500);

@@ -2,14 +2,13 @@
 
 namespace SonnyBlaine\Integrator\Services;
 
+use SonnyBlaine\Integrator\AbstractRequest;
 use SonnyBlaine\Integrator\Destination\RequestCreator as DestinationRequestCreator;
-use SonnyBlaine\Integrator\ResponseInterface;
 use SonnyBlaine\Integrator\Source\Request as SourceRequest;
 use SonnyBlaine\Integrator\Source\RequestRepository as SourceRequestRepository;
 use SonnyBlaine\Integrator\Destination\RequestRepository as DestinationRequestRepository;
 use SonnyBlaine\Integrator\Destination\Request as DestinationRequest;
 use SonnyBlaine\Integrator\Source\Source;
-use SonnyBlaine\Integrator\TryCountInterface;
 
 /**
  * Class RequestService
@@ -42,7 +41,8 @@ class RequestService
         DestinationRequestCreator $destinationRequestCreator,
         SourceRequestRepository $sourceRequestRepository,
         DestinationRequestRepository $destinationRequestRepository
-    ) {
+    )
+    {
         $this->destinationRequestCreator = $destinationRequestCreator;
         $this->sourceRequestRepository = $sourceRequestRepository;
         $this->destinationRequestRepository = $destinationRequestRepository;
@@ -119,15 +119,15 @@ class RequestService
     public function findSourceRequestsBySource(Source $source, array $filters = [])
     {
         return $this->sourceRequestRepository->findBySource(
-            $source, $filters, $filters['target']??SourceRequestRepository::SEARCH_USING_SOURCE_REQUEST
+            $source, $filters, $filters['target'] ?? SourceRequestRepository::SEARCH_USING_SOURCE_REQUEST
         );
     }
 
     /**
-     * @param TryCountInterface $request
+     * @param AbstractRequest $request
      * @param int $tryCount
      */
-    public function updateTryCount(TryCountInterface $request, int $tryCount)
+    public function updateTryCount(AbstractRequest $request, int $tryCount)
     {
         $request->setTryCount($tryCount);
 
@@ -135,17 +135,18 @@ class RequestService
     }
 
     /**
-     * @param ResponseInterface $request
+     * @param AbstractRequest $request
      * @param bool $success
      * @param string|null $msg
      * @param string|null $errorTracer
      */
     public function updateSourceRequestResponse(
-        ResponseInterface $request,
+        AbstractRequest $request,
         bool $success,
         ?string $msg = null,
         ?string $errorTracer = null
-    ) {
+    )
+    {
         $request->setSuccess($success);
         $request->setMsg($msg);
         $request->setErrorTracer($errorTracer);
@@ -154,10 +155,10 @@ class RequestService
     }
 
     /**
-     * @param object $request
+     * @param AbstractRequest $request
      * @return DestinationRequestRepository|SourceRequestRepository
      */
-    private function getRepository($request)
+    private function getRepository(AbstractRequest $request)
     {
         if ($request instanceof SourceRequest) {
             return $this->sourceRequestRepository;
