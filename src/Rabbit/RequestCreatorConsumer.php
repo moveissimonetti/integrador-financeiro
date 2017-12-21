@@ -41,7 +41,8 @@ class RequestCreatorConsumer implements ConsumerInterface
         RequestService $requestService,
         IntegratorProducer $requestCreatorProducer,
         IntegratorProducer $integratorProducer
-    ) {
+    )
+    {
         $this->requestService = $requestService;
         $this->requestCreatorProducer = $requestCreatorProducer;
         $this->integratorProducer = $integratorProducer;
@@ -76,16 +77,16 @@ class RequestCreatorConsumer implements ConsumerInterface
             }
 
             $sourceRequest->setSuccessIn(new \DateTime());
-            
+
             $this->requestService->updateSourceRequestResponse($sourceRequest, true);
 
             echo "Process completed" . PHP_EOL;
 
             return true;
-        } catch (\Exception $e) {
+        } catch (\Exception|\Error $e) {
             echo "Erro: " . $e->getMessage() . PHP_EOL;
 
-            if ($sourceRequest && self::MAX_TRY_COUNT == $tryCount) {
+            if ($sourceRequest && self::MAX_TRY_COUNT <= $tryCount) {
                 $this->requestService->updateSourceRequestResponse(
                     $sourceRequest,
                     false,
