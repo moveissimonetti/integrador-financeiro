@@ -1,4 +1,5 @@
 <?php
+
 use SonnyBlaine\Integrator\ConnectionManager;
 use SonnyBlaine\Integrator\Services\RequestService;
 use SonnyBlaine\Integrator\Destination;
@@ -51,7 +52,8 @@ $app['integrator.service'] = function () use ($app) {
         $app['orm.em']->getConnection(),
         $app['source.service'],
         $app['request.service'],
-        $app['rabbit.producer']['request_creator_producer']
+        $app['rabbit.producer']['request_creator_producer'],
+        $app['rabbit.producer']['integrator_producer']
     );
 };
 
