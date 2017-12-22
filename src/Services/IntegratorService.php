@@ -88,8 +88,12 @@ class IntegratorService
      */
     public function canBeReinstated(Request $sourceRequest)
     {
-        if ($sourceRequest->isCancelled() && $sourceRequest->isSuccess()) {
+        if ($sourceRequest->isCancelled()) {
             return false;
+        }
+
+        if (!$sourceRequest->isSuccess()) {
+            return true;
         }
 
         foreach ($sourceRequest->getDestinationRequests() as $destinationRequest) {
