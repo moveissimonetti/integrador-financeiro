@@ -3,16 +3,9 @@
 namespace SonnyBlaine\Integrator\Destination;
 
 use Doctrine\ORM\Mapping as ORM;
-use SonnyBlaine\Integrator\DateInterface;
-use SonnyBlaine\Integrator\DateTrait;
-use SonnyBlaine\Integrator\RequestStatusInterface;
-use SonnyBlaine\Integrator\RequestStatusTrait;
-use SonnyBlaine\Integrator\ResponseInterface;
-use SonnyBlaine\Integrator\ResponseTrait;
+use SonnyBlaine\Integrator\AbstractRequest;
 use SonnyBlaine\Integrator\Source\Destination;
 use SonnyBlaine\Integrator\Source\Request as SourceRequest;
-use SonnyBlaine\Integrator\TryCountInterface;
-use SonnyBlaine\Integrator\TryCountTrait;
 use SonnyBlaine\IntegratorBridge\RequestInterface;
 
 /**
@@ -25,22 +18,8 @@ use SonnyBlaine\IntegratorBridge\RequestInterface;
  *     @ORM\Index(name="success_date_idx", columns={"success_in"})
  * })
  */
-class Request implements RequestInterface, TryCountInterface, ResponseInterface, DateInterface, RequestStatusInterface
+class Request extends AbstractRequest implements RequestInterface
 {
-    use DateTrait;
-    use TryCountTrait;
-    use ResponseTrait;
-    use RequestStatusTrait;
-
-    /**
-     * Destination Request ID
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer", name="id")
-     * @var int
-     */
-    protected $id;
-
     /**
      * Destination
      * @ORM\ManyToOne(targetEntity="SonnyBlaine\Integrator\Source\Destination")
@@ -69,30 +48,15 @@ class Request implements RequestInterface, TryCountInterface, ResponseInterface,
      * @param Destination $destination
      * @param SourceRequest $sourceRequest
      * @param \stdClass $data
-     * @param null|DateTrait $createdIn
+     * @param null|\DateTime $createdIn
      */
-    public function __construct(
-        Destination $destination,
-        SourceRequest $sourceRequest,
-        \stdClass $data,
-        \DateTime $createdIn = null
-    ) {
-        if (!$createdIn) {
-            $createdIn = new \DateTime();
-        }
+    public function __construct(Destination $destination, SourceRequest $sourceRequest, \stdClass $data)
+    {
+        parent::__construct();
 
         $this->destination = $destination;
         $this->sourceRequest = $sourceRequest;
         $this->data = $data;
-        $this->createdIn = $createdIn;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     /**

@@ -1,8 +1,10 @@
 <?php
+
 namespace SonnyBlaine\Integrator\Services;
 
 use Doctrine\DBAL\Connection;
 use OldSound\RabbitMqBundle\RabbitMq\Producer as RequestCreatorProducer;
+use OldSound\RabbitMqBundle\RabbitMq\Producer as IntegratorProducer;
 use SonnyBlaine\Integrator\Source\Request;
 
 /**
@@ -32,6 +34,11 @@ class IntegratorService
     protected $requestCreatorProducer;
 
     /**
+     * @var IntegratorProducer
+     */
+    protected $integratorProducer;
+
+    /**
      * IntegratorService constructor.
      * @param Connection $connection
      * @param SourceService $sourceService
@@ -42,12 +49,15 @@ class IntegratorService
         Connection $connection,
         SourceService $sourceService,
         RequestService $requestService,
-        RequestCreatorProducer $rabbitProducer
-    ) {
+        RequestCreatorProducer $requestCreatorProducer,
+        IntegratorProducer $integratorProducer
+    )
+    {
         $this->connection = $connection;
         $this->sourceService = $sourceService;
         $this->requestService = $requestService;
-        $this->requestCreatorProducer = $rabbitProducer;
+        $this->requestCreatorProducer = $requestCreatorProducer;
+        $this->integratorProducer = $integratorProducer;
     }
 
     /**
@@ -73,6 +83,31 @@ class IntegratorService
     }
 
     /**
+     * @param Request $sourceRequest
+     * @return bool
+     */
+    public function canBeReinstated(Request $sourceRequest)
+    {
+        if ($sourceRequest->isCancelled()) {
+            return false;
+        }
+
+        if (!$sourceRequest->isSuccess()) {
+            return true;
+        }
+
+        foreach ($sourceRequest->getDestinationRequests() as $destinationRequest) {
+            if ($destinationRequest->isSuccess() || $destinationRequest->isCancelled()) {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @param string $sourceRequestId
      * @throws \Exception
      */
@@ -84,8 +119,24 @@ class IntegratorService
             throw new \Exception("Source Request not found.");
         }
 
-        $this->requestService->updateTryCount($sourceRequest, 0);
+        if (!$this->canBeReinstated($sourceRequest)) {
+            throw new \Exception("This request can not be reinstated!");
+        }
 
-        $this->requestCreatorProducer->publish($sourceRequestId);
+        if (!$sourceRequest->isSuccess()) {
+            $this->requestService->updateTryCount($sourceRequest, 0);
+            $this->requestCreatorProducer->publish($sourceRequestId);
+
+            return;
+        }
+
+        foreach ($sourceRequest->getDestinationRequests() as $destinationRequest) {
+            if ($destinationRequest->isSuccess() || $destinationRequest->isCancelled()) {
+                continue;
+            }
+
+            $this->requestService->updateTryCount($destinationRequest, 0);
+            $this->integratorProducer->publish($destinationRequest->getId());
+        }
     }
 }

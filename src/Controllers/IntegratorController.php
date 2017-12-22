@@ -2,10 +2,14 @@
 
 namespace SonnyBlaine\Integrator\Controllers;
 
+use SonnyBlaine\Integrator\RequestRepositoryInterface;
 use SonnyBlaine\Integrator\Services\IntegratorService;
 use SonnyBlaine\Integrator\Services\SearchService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use SonnyBlaine\Integrator\Source\RequestRepository as SourceRequestRepository;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 /**
  * Class IntegratorController
@@ -13,6 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class IntegratorController
 {
+    const SOURCE_REQUEST_NAME = 'source_request';
+    const DESTINATION_REQUEST_NAME = 'destination_request';
+
     /**
      * @var IntegratorService
      */
@@ -24,14 +31,20 @@ class IntegratorController
     protected $searchService;
 
     /**
+     * @var SourceRequestRepository
+     */
+    protected $sourceRequestRepository;
+
+    /**
      * IntegratorController constructor.
      * @param IntegratorService $integratorService
      * @param SearchService|null $searchService
      */
-    public function __construct(IntegratorService $integratorService, SearchService $searchService = null)
+    public function __construct(IntegratorService $integratorService, SearchService $searchService, SourceRequestRepository $sourceRequestRepository)
     {
         $this->integratorService = $integratorService;
         $this->searchService = $searchService;
+        $this->sourceRequestRepository = $sourceRequestRepository;
     }
 
     /**
@@ -106,10 +119,32 @@ class IntegratorController
             return new JsonResponse([
                 'msg' => 'Ok! The request will be resent.',
             ], 200);
-        } catch (\Exception $e) {
+        } catch (\Exception | \Error $e) {
             return new JsonResponse([
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    /**
+     * @param Request $request
+     * @param $sourceRequestId
+     */
+    public function cancelRequestAction(Request $request, $sourceRequestId)
+    {
+        /**
+         * @var \SonnyBlaine\Integrator\Source\Request $sourceRequest
+         */
+        $sourceRequest = $this->sourceRequestRepository->find($sourceRequestId);
+
+        try {
+            $sourceRequest->setCancelled(true);
+        } catch (\Exception $e) {
+            throw new UnauthorizedHttpException($e->getMessage());
+        }
+
+        $this->sourceRequestRepository->save($sourceRequest);
+
+        return new JsonResponse(['request_id' => $sourceRequestId], 200);
     }
 }

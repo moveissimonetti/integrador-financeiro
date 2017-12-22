@@ -56,9 +56,9 @@ class SourceRepository extends EntityRepository
             FROM
               source s
               LEFT JOIN source_request sr
-                ON sr.source_id = s.id
+                ON sr.source_id = s.id AND sr.cancelled = FALSE
               LEFT JOIN destination_request dr
-                ON dr.source_request_id = sr.id
+                ON dr.source_request_id = sr.id AND dr.cancelled = FALSE
             WHERE 
               1 = 1
               $where

@@ -75,10 +75,10 @@ class IntegratorConsumer implements ConsumerInterface
             echo "Integration completed" . PHP_EOL;
 
             return true;
-        } catch (\Exception $e) {
+        } catch (\Exception|\Error $e) {
             echo "Erro: " . $e->getMessage() . PHP_EOL;
 
-            if ($destinationRequest && self::MAX_TRY_COUNT == $tryCount) {
+            if ($destinationRequest && self::MAX_TRY_COUNT <= $tryCount) {
                 $this->requestService->updateSourceRequestResponse(
                     $destinationRequest,
                     false,

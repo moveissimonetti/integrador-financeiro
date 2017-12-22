@@ -1,4 +1,5 @@
 <?php
+
 use SonnyBlaine\Integrator\Controllers\SupervisorController;
 
 $app->mount('/api', function ($api) {
@@ -10,6 +11,10 @@ $app->mount('/api', function ($api) {
         $source->get('/search', 'source.controller:searchAction');
         $source->get('/{sourceIdentifier}/requests', 'source.controller:fetchRequestsAction');
         $source->put('/request/{sourceRequestId}/retry-integrate', 'integrator.controller:retryIntegrateAction');
+        $source->mount('/request/{sourceRequestId}', function ($sourceRequest) {
+            $sourceRequest->put('/retry-integrate', 'integrator.controller:retryIntegrateAction');
+            $sourceRequest->put('/cancel', 'integrator.controller:cancelRequestAction');
+        });
     });
 
     $api->mount('/supervisor', function ($supervisor) {
