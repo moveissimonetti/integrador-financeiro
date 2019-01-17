@@ -95,6 +95,9 @@ class SourceController
                 if (method_exists($request, 'getMsg')) {
                     $return['msg'] = utf8_encode($request->getMsg());
                 }
+                if (method_exists($request, 'getData')) {
+                    $return['dadosRequisicao'] = $request->getData();
+                }
 
                 $return = array_merge($return, $callback($request));
 
@@ -108,7 +111,8 @@ class SourceController
                     }
 
                     return [
-                        'successIn' => $request->getSuccessIn()
+                        'successIn' => $request->getSuccessIn(),
+                        'data' => $request->getData(),
                     ];
                 });
             };
