@@ -58,17 +58,21 @@ abstract class AbstractRequest
 
     /**
      * @ORM\Column(name="cancelled", type="boolean", options={"default" : 0})
-     *
      * @var bool
      */
     protected $cancelled;
 
     /**
      * @ORM\Column(name="cancelled_in", type="datetime", nullable=true)
-     *
      * @var \DateTime|null
      */
     protected $cancelledIn;
+
+    /**
+     * @ORM\Column(name="data", type="string", nullable=true)
+     * @var string
+     */
+    protected $data;
 
     /**
      * AbstractRequest constructor.
@@ -83,6 +87,7 @@ abstract class AbstractRequest
         $this->errorTracer = null;
         $this->cancelled = false;
         $this->cancelledIn = null;
+        $this->data = null;
     }
 
     /**
@@ -216,5 +221,13 @@ abstract class AbstractRequest
 
         $this->cancelled = $cancelled;
         $this->cancelledIn = new \DateTime();
+    }
+
+    /**
+     * @return string
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }
