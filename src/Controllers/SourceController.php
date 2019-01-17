@@ -96,7 +96,7 @@ class SourceController
                     $return['msg'] = utf8_encode($request->getMsg());
                 }
                 if (method_exists($request, 'getData')) {
-                    $return['dadosRequisicao'] = $request->getData();
+                    $return['data'] = $request->getData();
                 }
 
                 $return = array_merge($return, $callback($request));
