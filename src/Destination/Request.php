@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use SonnyBlaine\Integrator\AbstractRequest;
 use SonnyBlaine\Integrator\Source\Destination;
 use SonnyBlaine\Integrator\Source\Request as SourceRequest;
-use SonnyBlaine\IntegratorBridge\RequestInterface;
+use SonnyBlaine\IntegratorBridge\IntegrateRequestInterface;
 
 /**
  * Class Request
@@ -18,7 +18,7 @@ use SonnyBlaine\IntegratorBridge\RequestInterface;
  *     @ORM\Index(name="success_date_idx", columns={"success_in"})
  * })
  */
-class Request extends AbstractRequest implements RequestInterface
+class Request extends AbstractRequest implements IntegrateRequestInterface
 {
     /**
      * Destination

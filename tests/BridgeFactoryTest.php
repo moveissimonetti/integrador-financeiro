@@ -4,7 +4,8 @@ namespace SonnyBlaine\Integrator\Tests;
 use Pimple\Container;
 use SonnyBlaine\Integrator\BridgeFactory;
 use SonnyBlaine\IntegratorBridge\BridgeInterface;
-use SonnyBlaine\IntegratorBridge\RequestInterface;
+use SonnyBlaine\IntegratorBridge\IntegrateRequestInterface;
+use SonnyBlaine\IntegratorBridge\SearchRequestInterface;
 
 /**
  * Class BridgeFactoryTest
@@ -55,17 +56,17 @@ class BridgeFactoryTest extends \PHPUnit_Framework_TestCase
     {
         return (new class() implements BridgeInterface
         {
-            public function integrate(RequestInterface $request)
+            public function integrate(IntegrateRequestInterface $request)
             {
                 return true;
             }
 
             /**
              * Retrieves data
-             * @param RequestInterface $request
+             * @param SearchRequestInterface $request
              * @return mixed
              */
-            public function search(RequestInterface $request)
+            public function search(SearchRequestInterface $request)
             {
                 return true;
             }

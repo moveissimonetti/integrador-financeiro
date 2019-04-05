@@ -2,11 +2,22 @@
 
 namespace SonnyBlaine\Integrator\Search;
 
-use SonnyBlaine\IntegratorBridge\RequestInterface;
+use SonnyBlaine\IntegratorBridge\SearchRequestInterface;
 
-class SearchRequest implements RequestInterface
+/**
+ * Class SearchRequest
+ * @package SonnyBlaine\Integrator\Search
+ */
+class SearchRequest implements SearchRequestInterface
 {
+    /**
+     * @var \stdClass
+     */
     private $data;
+
+    /**
+     * @var string
+     */
     private $identifier;
 
     /**
@@ -19,7 +30,6 @@ class SearchRequest implements RequestInterface
         $this->data = $data;
         $this->identifier = $identifier;
     }
-
 
     /**
      * Data object to be integrated
