@@ -4,10 +4,8 @@ namespace SonnyBlaine\Integrator\Source;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\ORM\QueryBuilder;
 use SonnyBlaine\Integrator\AbstractRequest;
 use SonnyBlaine\Integrator\RequestRepositoryInterface;
-use SonnyBlaine\IntegratorBridge\RequestInterface;
 
 /**
  * Class RequestRepository

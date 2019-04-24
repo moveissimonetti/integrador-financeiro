@@ -5,7 +5,6 @@ namespace SonnyBlaine\Integrator\Destination;
 use Doctrine\ORM\EntityRepository;
 use SonnyBlaine\Integrator\AbstractRequest;
 use SonnyBlaine\Integrator\RequestRepositoryInterface;
-use SonnyBlaine\IntegratorBridge\RequestInterface;
 
 /**
  * Class RequestRepository
