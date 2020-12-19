@@ -75,7 +75,7 @@ class RequestCreator
         $dataList2Object = [];
 
         foreach ($dataList as $key => $dataValue) {
-            $dataList2Object[$sourceDestination->getColumnByKey($key)] = $dataValue;
+            $dataList2Object[$sourceDestination->getColumnByKey($key)] = mb_convert_encoding($dataValue, "UTF-8", mb_detect_encoding($dataValue, "UTF-8, ISO-8859-1, ISO-8859-15", true));
         }
 
         return (object)$dataList2Object;
